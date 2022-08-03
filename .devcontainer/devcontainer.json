@@ -1,0 +1,8 @@
+{
+    "name": "google-kaggle-competition",
+    "build": {
+      "dockerfile": "Dockerfile"
+    },
+    "extensions": ["Iterative.dvc"],
+    "postCreateCommand": "pip install poetry; poetry install; poetry shell; dvc pull"
+  }
