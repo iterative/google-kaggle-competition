@@ -3,6 +3,8 @@
     "build": {
       "dockerfile": "Dockerfile"
     },
-    "extensions": ["Iterative.dvc"],
+    "extensions": ["Iterative.dvc",         
+                  "ms-toolsai.jupyter",
+                  "ms-python.python"],
     "postCreateCommand": "pip install poetry; poetry install; poetry shell; dvc pull"
   }
