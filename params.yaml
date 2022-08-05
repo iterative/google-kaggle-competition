@@ -2,3 +2,7 @@ data:
   archive_baseline: archive.zip
   data_root: data
   dataset_baseline: images_128
+  teacher_data: teacher_data
+
+teacher_models:
+  - Dishes

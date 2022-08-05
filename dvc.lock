@@ -14,3 +14,17 @@ stages:
       md5: 2d35f1eb05bc40c5bb7ec7e7d12cc44f.dir
       size: 294272494
       nfiles: 9347
+  unzip_dataset@Dishes:
+    cmd: python src/stages/unzip_dataset.py --teacher Dishes
+    deps:
+    - path: data/teacher_data/Dishes.zip
+      md5: 9df78eee5fa02415ebf3d46b45a73c50
+      size: 227445027
+    - path: src/stages/unzip_dataset.py
+      md5: 7c2f5cdeb83fac5516101d5f68d6b568
+      size: 711
+    outs:
+    - path: data/teacher_data/Dishes
+      md5: b23cf150b12c80be59b94ca9a48ebc24.dir
+      size: 227858517
+      nfiles: 9000
