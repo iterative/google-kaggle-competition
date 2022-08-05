@@ -1,0 +1,16 @@
+schema: '2.0'
+stages:
+  unzip_dataset:
+    cmd: python src/stages/unzip_dataset.py
+    deps:
+    - path: data/archive.zip
+      md5: 28eaead3ef745dcbf58ddee356f9f72a
+      size: 293174706
+    - path: src/stages/unzip_dataset.py
+      md5: 28294d4a18a0d5356a740fc25f7f1893
+      size: 572
+    outs:
+    - path: data/images_128
+      md5: 2d35f1eb05bc40c5bb7ec7e7d12cc44f.dir
+      size: 294272494
+      nfiles: 9347

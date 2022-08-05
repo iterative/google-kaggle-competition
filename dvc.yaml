@@ -1,0 +1,9 @@
+stages:
+  unzip_dataset:
+    cmd: python src/stages/unzip_dataset.py
+    deps:
+    - data/archive.zip
+    - src/stages/unzip_dataset.py
+    outs:
+    - data/images_128:
+        cache: false
