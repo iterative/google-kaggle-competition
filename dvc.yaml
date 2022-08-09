@@ -10,6 +10,23 @@ stages:
       - data/teacher_data/${item}.zip
       - src/stages/unzip_dataset.py
 
+  train_teacher_model:
+    foreach: ${teacher_models}
+    do:
+      cmd: python src/stages/train.py --teacher ${item}
+      deps:
+      - data/teacher_data/${item}
+      - data/teacher_splitted/${item}
+      - src/stages/train.py
+      # outs:
+      # - model.pt
+      metrics:
+      - dvclive.json:
+          cache: false
+      plots:
+      - dvclive/scalars:
+          cache: false
+
 #    cmd: python src/stages/unzip_dataset.py
 #    deps:
 #    - data/archive.zip

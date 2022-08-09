@@ -95,12 +95,12 @@ class TripletMNIST(Dataset):
         # self.data = self.dataset
         self.subset_indices = subset_indices
         self.labels_set = set(self.dataset.targets)
-        # self.label_to_indices = {label: np.where(self.labels == label)[0]
-        #                              for label in self.labels_set}
+        self.label_to_indices = {label: np.where(self.labels == label)[0]
+                                     for label in self.labels_set}
 
-        self.label_to_indices = {label: [] for label in self.labels_set}
-        for index in subset_indices:
-            self.label_to_indices[self.labels[index]].append(index)
+        # self.label_to_indices = {label: [] for label in self.labels_set}
+        # for index in subset_indices:
+        #     self.label_to_indices[self.labels[index]].append(index)
 
 
         random_state = np.random.RandomState(29)
@@ -130,10 +130,13 @@ class TripletMNIST(Dataset):
             img1 = self.dataset[self.test_triplets[index][0]]
             img2 = self.dataset[self.test_triplets[index][1]]
             img3 = self.dataset[self.test_triplets[index][2]]
+        img1 = img1[0]
+        img2 = img2[0]
+        img3 = img3[0]
 
-        img1 = pil_to_tensor(img1[0])/255
-        img2 = pil_to_tensor(img2[0])/255
-        img3 = pil_to_tensor(img3[0])/255
+        # img1 = pil_to_tensor(img1[0])/255
+        # img2 = pil_to_tensor(img2[0])/255
+        # img3 = pil_to_tensor(img3[0])/255
         # img1 = Image.fromarray(img1.numpy(), mode='L')
         # img2 = Image.fromarray(img2.numpy(), mode='L')
         # img3 = Image.fromarray(img3.numpy(), mode='L')
@@ -145,7 +148,7 @@ class TripletMNIST(Dataset):
         return (img1, img2, img3), []
 
     def __len__(self):
-        return len(self.subset_indices)
+        return len(self.dataset)
 
 
 class BalancedBatchSampler(BatchSampler):

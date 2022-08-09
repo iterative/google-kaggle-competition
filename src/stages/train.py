@@ -7,8 +7,7 @@ from datasets import TripletMNIST
 
 from trainer import fit
 import numpy as np
-cuda = torch.cuda.is_available()
-
+import argparse 
 import matplotlib
 import matplotlib.pyplot as plt
 from torch.utils.data import random_split
@@ -17,27 +16,27 @@ from networks import EmbeddingNet, TripletNet
 from torchvision.datasets import ImageFolder
 from losses import TripletLoss
 from metrics import AccumulatedAccuracyMetric
-
+from torchvision.transforms import ToTensor
 
 
 def train():
-    dataset = ImageFolder("data/teacher_data/Dishes")
+    train_dataset = ImageFolder("data/teacher_splitted/Dishes/train", transform=ToTensor())
+    val_dataset = ImageFolder("data/teacher_splitted/Dishes/train", transform=ToTensor())
 
-    test_size = 0.2
-    test_n_samples = int(len(dataset)*test_size)
-    train_dataset, val_dataset = torch.utils.data.random_split(dataset, [len(dataset)-test_n_samples, test_n_samples])
+    # test_size = 0.2
+    # test_n_samples = int(len(dataset)*test_size)
+    # train_dataset, val_dataset = torch.utils.data.random_split(dataset, [len(dataset)-test_n_samples, test_n_samples])
     cuda = torch.cuda.is_available()
 
-    from torch.utils.data import random_split
 
 
 
-    test_size = 0.2
-    test_n_samples = int(len(dataset)*test_size)
-    train_dataset, val_dataset = torch.utils.data.random_split(dataset, [len(dataset)-test_n_samples, test_n_samples])
+    # test_size = 0.2
+    # test_n_samples = int(len(dataset)*test_size)
+    # train_dataset, val_dataset = torch.utils.data.random_split(dataset, [len(dataset)-test_n_samples, test_n_samples])
 
-    triplet_dataset_train = TripletMNIST(train_dataset.dataset, train=True, subset_indices=train_dataset.indices) 
-    triplet_dataset_val = TripletMNIST(val_dataset.dataset, train=False, subset_indices=val_dataset.indices)
+    triplet_dataset_train = TripletMNIST(train_dataset, train=True) 
+    triplet_dataset_val = TripletMNIST(val_dataset, train=False)
     # triplet_test_dataset = TripletMNIST(test_dataset)
     batch_size = 128
     kwargs = {'num_workers': 1, 'pin_memory': True} if cuda else {}
@@ -53,16 +52,20 @@ def train():
     if cuda:
         model.cuda()
     loss_fn = TripletLoss(margin)
-    lr = 0.0001
+    lr = 0.001
     optimizer = optim.Adam(model.parameters(), lr=lr)
-    scheduler = lr_scheduler.StepLR(optimizer, 4, gamma=0.1, last_epoch=-1)
-    n_epochs = 20
+    scheduler = lr_scheduler.StepLR(optimizer, 2, gamma=0.1, last_epoch=-1)
+    
+    n_epochs = 4
     log_interval = 10
     fit(triplet_train_loader, triplet_test_loader,  model, loss_fn, optimizer, scheduler, n_epochs, cuda, log_interval)#, metrics=[AccumulatedAccuracyMetric()])
 
     torch.save(model, "model.pt")
 
 if __name__=="__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--teacher", default="Dishes")
+    cli_params = parser.parse_args()
     train()
 
 

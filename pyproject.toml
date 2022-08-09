@@ -12,6 +12,7 @@ torchvision = "^0.13.0"
 PyYAML = "^6.0"
 matplotlib = "^3.5.2"
 transformers = "^4.21.1"
+dvclive = "^0.10.0"
 
 [tool.poetry.dev-dependencies]
 jupyter = "^1.0.0"

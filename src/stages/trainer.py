@@ -1,6 +1,6 @@
 import torch
 import numpy as np
-
+from dvclive import Live
 
 def fit(train_loader, val_loader,  model, loss_fn, optimizer, scheduler, n_epochs, cuda, log_interval, metrics=[],
         start_epoch=0):
@@ -15,25 +15,26 @@ def fit(train_loader, val_loader,  model, loss_fn, optimizer, scheduler, n_epoch
     """
     # for epoch in range(0, start_epoch):
     #     scheduler.step()
-
+    live = Live()
     for epoch in range(start_epoch, n_epochs):
 
         # Train stage
         train_loss, metrics = train_epoch(train_loader, model, loss_fn, optimizer, cuda, log_interval, metrics)
-
+        live.log("training_loss", train_loss)
         message = 'Epoch: {}/{}. Train set: Average loss: {:.4f}'.format(epoch + 1, n_epochs, train_loss)
         for metric in metrics:
             message += '\t{}: {}'.format(metric.name(), metric.value())
 
         val_loss, metrics = test_epoch(val_loader, model, loss_fn, cuda, metrics)
         val_loss /= len(val_loader)
-
+        live.log("validation_lss", val_loss)
         message += '\nEpoch: {}/{}. Validation set: Average loss: {:.4f}'.format(epoch + 1, n_epochs, val_loss)
         for metric in metrics:
             message += '\t{}: {}'.format(metric.name(), metric.value())
         
         scheduler.step()
-
+        live.log("learning_rate", scheduler.get_last_lr()[0])
+        live.next_step()
         print(message)
 
 

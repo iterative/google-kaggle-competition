@@ -1904,9 +1904,9 @@ optional = false
 python-versions = "*"
 
 [package.extras]
-win32 = ["pywin32"]
+nativelib = ["pyobjc-framework-cocoa", "pywin32"]
 objc = ["pyobjc-framework-cocoa"]
-nativelib = ["pywin32", "pyobjc-framework-cocoa"]
+win32 = ["pywin32"]
 
 [[package]]
 name = "setuptools-scm"
@@ -2299,7 +2299,7 @@ test = ["zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "73c577a91fd3c2e4222f44e958cfae6fd3a854e664defd6c82591b755b6705a3"
+content-hash = "51cec500e5ee8d582e95a519b99556e4878acbd213db1878bc306005b9ca9ae2"
 
 [metadata.files]
 aiobotocore = [
