@@ -23,15 +23,16 @@ stages:
   preprocess_dataset:
     cmd: python src/stages/preprocess_dataset.py --params=params.yaml
     deps:
-    - path: data/images_128
-      md5: 2d35f1eb05bc40c5bb7ec7e7d12cc44f.dir
-      size: 294272494
-      nfiles: 9347
     - path: src/stages/preprocess_dataset.py
-      md5: 316a116725d40522956d508dcb89d4a2
-      size: 1439
+      md5: e2844b5827ad884c8ac76d09349a578c
+      size: 1440
     params:
       params.yaml:
+        data:
+          archive_baseline: archive.zip
+          data_root: data
+          dataset_baseline: images_128
+          teacher_data: teacher_data
         preprocess_dataset:
           batch_size: 4
           center_crop: 224
@@ -45,11 +46,52 @@ stages:
           - 0.225
           output_folder: preprocessed
           resize: 236
-        unzip_dataset:
+  unzip_dataset@Dishes:
+    cmd: python src/stages/unzip_dataset.py --teacher Dishes
+    deps:
+    - path: data/teacher_data/Dishes.zip
+      md5: 9df78eee5fa02415ebf3d46b45a73c50
+      size: 227445027
+    - path: src/stages/unzip_dataset.py
+      md5: 050f7b8f334b203edc83c4d39380451d
+      size: 1018
+    outs:
+    - path: data/teacher_data/Dishes
+      md5: b23cf150b12c80be59b94ca9a48ebc24.dir
+      size: 227858517
+      nfiles: 9000
+  split_dataset:
+    cmd: python src/stages/split_dataset.py --params=params.yaml
+    deps:
+    - path: data/teacher_data
+      md5: 3f6aeeae0ce574394194e98059ef537c.dir
+      size: 455303645
+      nfiles: 9003
+    - path: src/stages/split_dataset.py
+      md5: ab66b23736e587a88dd6b508961269fd
+      size: 2162
+    params:
+      params.yaml:
+        data:
           archive_baseline: archive.zip
           data_root: data
           dataset_baseline: images_128
+          teacher_data: teacher_data
+        split_dataset:
+          index_search:
+            output_folder: index_search_splitted
+            index_search_ratio: 0.3
+            seed: 1337
+          teacher_models:
+            output_folder: teacher_splitted
+            seed: 1337
+            test_ratio: 0.3
     outs:
-    - path: data/preprocessed
-      md5: ee1743c29293cff359d583fe2ef0729d
-      size: 480751
+    - path: data/index_search_splitted
+      md5: 68716079e18cbe2389c7f04a6bb843b3.dir
+      size: 68241849
+      nfiles: 2700
+    - path: data/teacher_splitted
+      md5: bf382f58e31b76b7effe32b2e11d843d.dir
+      size: 159616668
+      nfiles: 6300

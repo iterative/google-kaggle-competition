@@ -5,17 +5,26 @@ import yaml
 
 
 def main(params):
-    stage_params = yaml.safe_load(open(params))
-    data_root = Path(stage_params["unzip_dataset"]['data_root'])
-    dataset_path = stage_params["unzip_dataset"]["dataset_baseline"]
+    stage_params = yaml.safe_load(open(params.params))
+    data_root = Path(stage_params["data"]["data_root"])
+    teacher_data_path = stage_params["data"]["teacher_data"]
 
-    zipfile = ZipFile(data_root / stage_params["unzip_dataset"]["archive_baseline"] )
-    zipfile.extractall(path=data_root)
+    if params.teacher:
+        teacher_data_archive_path = (
+            data_root / teacher_data_path / params.teacher
+        ).with_suffix(".zip")
+        zipfile = ZipFile(teacher_data_archive_path)
+        zipfile.extractall(path=data_root / teacher_data_path)
+    else:
+        baseline_dataset = stage_params["data"]["archive_baseline"]
+        baseline_data_archive_path = data_root / baseline_dataset
+        zipfile = ZipFile(baseline_data_archive_path)
+        zipfile.extractall(path=data_root)
+        
 
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--params", type=str, default='params.yaml')
+    parser.add_argument("--params", type=str, default="params.yaml")
+    parser.add_argument("--teacher", type=str)
     args = parser.parse_args()
-    main(args.params)
+    main(args)

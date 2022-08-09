@@ -1,23 +1,36 @@
 stages:
   unzip_dataset:
-    cmd: python src/stages/unzip_dataset.py --params=params.yaml
-    deps:
-      - src/stages/unzip_dataset.py
-      - ${unzip_dataset.data_root}/${unzip_dataset.archive_baseline}
-    params:
-      - unzip_dataset
-    outs:
-      - ${unzip_dataset.data_root}/${unzip_dataset.dataset_baseline}:
+    foreach: ${teacher_models}
+    do:
+      cmd: python src/stages/unzip_dataset.py --teacher ${item}
+      outs:
+      - data/teacher_data/${item}:
           cache: false
-  preprocess_dataset:
-    cmd: python src/stages/preprocess_dataset.py --params=params.yaml
-    deps:
-      - src/stages/preprocess_dataset.py
-      - ${unzip_dataset.data_root}/${unzip_dataset.dataset_baseline}
-    params:
-      - unzip_dataset
-      - preprocess_dataset
+      deps:
+      - data/teacher_data/${item}.zip
+      - src/stages/unzip_dataset.py
+  split_dataset:
+    cmd: python src/stages/split_dataset.py --params=params.yaml
     outs:
-      - ${unzip_dataset.data_root}/${preprocess_dataset.output_folder}:
-          cache: false 
+    - ${data.data_root}/${split_dataset.index_search.output_folder}:
+        cache: false
+    - ${data.data_root}/${split_dataset.teacher_models.output_folder}:
+        cache: false
+    deps:
+      - data/teacher_data
+      - src/stages/split_dataset.py
+    params:
+      - data
+      - split_dataset
+
+#  preprocess_dataset:
+#    cmd: python src/stages/preprocess_dataset.py --params=params.yaml
+#    deps:
+#      - src/stages/preprocess_dataset.py
+#    params:
+#      - data
+#      - preprocess_dataset
+#    outs:
+#      - ${data.data_root}/${preprocess_dataset.output_folder}:
+#          cache: false 
 # Split to test and train
