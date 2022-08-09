@@ -38,9 +38,9 @@ stages:
     cmd: python src/stages/split_dataset.py --params=params.yaml
     deps:
     - path: data/teacher_data
-      md5: 66e9d5eb0583773c3eba72de9662295e.dir
-      size: 865939146
-      nfiles: 22
+      md5: 5cfc0ec97bc7b835104803186a3b4768.dir
+      size: 865951452
+      nfiles: 24
     - path: src/stages/split_dataset.py
       md5: 1a66358f99566e5aaea25113f522f5d9
       size: 2114
@@ -62,13 +62,13 @@ stages:
             test_ratio: 0.3
     outs:
     - path: data/index_search_splitted
-      md5: 68716079e18cbe2389c7f04a6bb843b3.dir
-      size: 68241849
-      nfiles: 2700
+      md5: 45488de142622b7fb28577e3d8365e47.dir
+      size: 269048467
+      nfiles: 5558
     - path: data/teacher_splitted
-      md5: bf382f58e31b76b7effe32b2e11d843d.dir
-      size: 159616668
-      nfiles: 6300
+      md5: 43878e7fc90338093d632b98439f0203.dir
+      size: 608813372
+      nfiles: 12889
   train_teacher_model@Dishes:
     cmd: python src/stages/train.py --teacher Dishes
     deps:
@@ -86,4 +86,36 @@ stages:
     - path: dvclive_Dishes/scalars
       md5: 82331e432a8bda2cd83bd78563146c49.dir
       size: 473
+      nfiles: 3
+  unzip_dataset@Landmarks:
+    cmd: python src/stages/unzip_dataset.py --teacher Landmarks
+    deps:
+    - path: data/teacher_data/Landmarks.zip
+      md5: 350c8ab421310f9717eac242faa3b409
+      size: 638370990
+    - path: src/stages/unzip_dataset.py
+      md5: 4769d26ff7a1910c16fc15a6ef7ebd39
+      size: 1011
+    outs:
+    - path: data/teacher_data/Landmarks
+      md5: ed9b37f78567165ee5b8c769abe312f8.dir
+      size: 650138566
+      nfiles: 9466
+  train_teacher_model@Landmarks:
+    cmd: python src/stages/train.py --teacher Landmarks
+    deps:
+    - path: data/teacher_splitted/Landmarks
+      md5: c3b295e14949f409d6e249f894a84b9d.dir
+      size: 449196704
+      nfiles: 6589
+    - path: src/stages/train.py
+      md5: 000317f81b9599f9fe43a362fef0442d
+      size: 2504
+    outs:
+    - path: dvclive_Landmarks.json
+      md5: db9bd089efe29f49a2943857daf8c2b8
+      size: 128
+    - path: dvclive_Landmarks/scalars
+      md5: fcd85f19bc81448fa09fae0fdaaa846d.dir
+      size: 472
       nfiles: 3
