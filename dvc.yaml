@@ -27,10 +27,29 @@ stages:
       - dvclive/scalars:
           cache: false
 
-#    cmd: python src/stages/unzip_dataset.py
+
+  split_dataset:
+    cmd: python src/stages/split_dataset.py --params=params.yaml
+    outs:
+    - ${data.data_root}/${split_dataset.index_search.output_folder}:
+        cache: false
+    - ${data.data_root}/${split_dataset.teacher_models.output_folder}:
+        cache: false
+    deps:
+      - data/teacher_data
+      - src/stages/split_dataset.py
+    params:
+      - data
+      - split_dataset
+
+#  preprocess_dataset:
+#    cmd: python src/stages/preprocess_dataset.py --params=params.yaml
 #    deps:
-#    - data/archive.zip
-#    - src/stages/unzip_dataset.py
+#      - src/stages/preprocess_dataset.py
+#    params:
+#      - data
+#      - preprocess_dataset
 #    outs:
-#    - data/images_128:
-#        cache: false
+#      - ${data.data_root}/${preprocess_dataset.output_folder}:
+#          cache: false 
+# Split to test and train
