@@ -1,30 +1,34 @@
 import torch.nn as nn
 import torch.nn.functional as F
 from transformers import AutoFeatureExtractor, ResNetModel
-
+import torch
 class EmbeddingNet(nn.Module):
     def __init__(self):
         super(EmbeddingNet, self).__init__()
         self.convnet = nn.Sequential(nn.Conv2d(3, 32, 5), nn.PReLU(),
                                      nn.MaxPool2d(2, stride=2),
                                      nn.Conv2d(32, 64, 5), nn.PReLU(),
-                                     nn.MaxPool2d(2, stride=2),
-                                     nn.Conv2d(64, 64, 5), nn.PReLU(),
-                                     nn.MaxPool2d(2,stride=2))
+                                     nn.MaxPool2d(2, stride=2))
+                                     # nn.Conv2d(64, 64, 5), nn.PReLU(),
+                                     # nn.MaxPool2d(2,stride=2))
         # self.feature_extractor = AutoFeatureExtractor.from_pretrained("microsoft/resnet-50")
         # self.feature_extractor =  ResNetModel.from_pretrained("microsoft/resnet-50")
 
-        self.fc = nn.Sequential(nn.Linear(64 * 24 * 24, 256),
+        self.fc = nn.Sequential(nn.Linear(64 * 53 * 53, 256),
                                 nn.PReLU(),
                                 nn.Linear(256, 256),
                                 nn.PReLU(),
-                                nn.Linear(256, 2)
+                                nn.Linear(256, 6)
                                 )
 
     def forward(self, x):
         output = self.convnet(x)
+
         # output = output.last_hidden_state
-        output = output.view(output.size()[0], -1)
+        # print(output.size())
+        output = output.view(output.size(0),-1)
+        # x = torch.flatten(output, 1)
+        # print(output.shape)
         output = self.fc(output)
         return output
 

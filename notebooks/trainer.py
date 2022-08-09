@@ -29,8 +29,7 @@ def fit(train_loader, val_loader,  model, loss_fn, optimizer, scheduler, n_epoch
         val_loss, metrics = test_epoch(val_loader, model, loss_fn, cuda, metrics)
         val_loss /= len(val_loader)
 
-        message += '\nEpoch: {}/{}. Validation set: Average loss: {:.4f}'.format(epoch + 1, n_epochs,
-                                                                                 )
+        message += '\nEpoch: {}/{}. Validation set: Average loss: {:.4f}'.format(epoch + 1, n_epochs, train_loss)
         for metric in metrics:
             message += '\t{}: {}'.format(metric.name(), metric.value())
 
@@ -46,6 +45,8 @@ def train_epoch(train_loader, model, loss_fn, optimizer, cuda, log_interval, met
     total_loss = 0
 
     for batch_idx, (data, target) in enumerate(train_loader):
+        print(batch_idx)
+        print(target)
         target = target if len(target) > 0 else None
         if not type(data) in (tuple, list):
             data = (data,)

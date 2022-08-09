@@ -82,7 +82,7 @@ class TripletMNIST(Dataset):
     Test: Creates fixed triplets for testing
     """
 
-    def __init__(self, dataset, train):
+    def __init__(self, dataset, train, subset_indices=None):
 
         # if subset_indices is not None:
         #     self.dataset = dataset[subset_indices]
@@ -92,38 +92,44 @@ class TripletMNIST(Dataset):
         self.train = train
         self.transform = None
         self.labels = np.array(self.dataset.targets)
-        self.data = self.dataset
+        # self.data = self.dataset
+        self.subset_indices = subset_indices
         self.labels_set = set(self.dataset.targets)
-        self.label_to_indices = {label: np.where(self.labels == label)[0]
-                                     for label in self.labels_set}
+        # self.label_to_indices = {label: np.where(self.labels == label)[0]
+        #                              for label in self.labels_set}
+
+        self.label_to_indices = {label: [] for label in self.labels_set}
+        for index in subset_indices:
+            self.label_to_indices[self.labels[index]].append(index)
+
 
         random_state = np.random.RandomState(29)
         if not train: 
             triplets = [[i,
-                            random_state.choice(self.label_to_indices[self.label[i].item()]),
+                            random_state.choice(self.label_to_indices[self.labels[i].item()]),
                             random_state.choice(self.label_to_indices[
                                                     np.random.choice(
                                                         list(self.labels_set - set([self.labels[i].item()]))
                                                     )
                                                 ])
                              ]
-                            for i in range(len(self.test_data))]
+                            for i in range(len(self.dataset))]
             self.test_triplets = triplets
 
     def __getitem__(self, index):
         if self.train:
-            img1, label1 = self.data[index], self.labels[index] #.item()
+            img1, label1 = self.dataset[index], self.labels[index] #.item()
             positive_index = index
             while positive_index == index:
                 positive_index = np.random.choice(self.label_to_indices[label1])
             negative_label = np.random.choice(list(self.labels_set - set([label1])))
             negative_index = np.random.choice(self.label_to_indices[negative_label])
-            img2 = self.data[positive_index]
-            img3 = self.data[negative_index]
+            img2 = self.dataset[positive_index]
+            img3 = self.dataset[negative_index]
         else:
-            img1 = self.data[self.test_triplets[index][0]]
-            img2 = self.data[self.test_triplets[index][1]]
-            img3 = self.data[self.test_triplets[index][2]]
+            img1 = self.dataset[self.test_triplets[index][0]]
+            img2 = self.dataset[self.test_triplets[index][1]]
+            img3 = self.dataset[self.test_triplets[index][2]]
 
         img1 = pil_to_tensor(img1[0])/255
         img2 = pil_to_tensor(img2[0])/255
@@ -135,10 +141,11 @@ class TripletMNIST(Dataset):
             img1 = self.transform(img1)
             img2 = self.transform(img2)
             img3 = self.transform(img3)
+
         return (img1, img2, img3), []
 
     def __len__(self):
-        return len(self.dataset)
+        return len(self.subset_indices)
 
 
 class BalancedBatchSampler(BatchSampler):
