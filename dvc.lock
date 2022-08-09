@@ -1,16 +1,55 @@
 schema: '2.0'
 stages:
   unzip_dataset:
-    cmd: python src/stages/unzip_dataset.py
+    cmd: python src/stages/unzip_dataset.py --params=params.yaml
     deps:
     - path: data/archive.zip
       md5: 28eaead3ef745dcbf58ddee356f9f72a
       size: 293174706
     - path: src/stages/unzip_dataset.py
-      md5: 28294d4a18a0d5356a740fc25f7f1893
-      size: 572
+      md5: 8069ad82cacfc20314b1f49f8fe3c305
+      size: 599
+    params:
+      params.yaml:
+        unzip_dataset:
+          archive_baseline: archive.zip
+          data_root: data
+          dataset_baseline: images_128
     outs:
     - path: data/images_128
       md5: 2d35f1eb05bc40c5bb7ec7e7d12cc44f.dir
       size: 294272494
       nfiles: 9347
+  preprocess_dataset:
+    cmd: python src/stages/preprocess_dataset.py --params=params.yaml
+    deps:
+    - path: data/images_128
+      md5: 2d35f1eb05bc40c5bb7ec7e7d12cc44f.dir
+      size: 294272494
+      nfiles: 9347
+    - path: src/stages/preprocess_dataset.py
+      md5: 316a116725d40522956d508dcb89d4a2
+      size: 1439
+    params:
+      params.yaml:
+        preprocess_dataset:
+          batch_size: 4
+          center_crop: 224
+          normalize_mean:
+          - 0.485
+          - 0.456
+          - 0.406
+          normalize_std:
+          - 0.229
+          - 0.224
+          - 0.225
+          output_folder: preprocessed
+          resize: 236
+        unzip_dataset:
+          archive_baseline: archive.zip
+          data_root: data
+          dataset_baseline: images_128
+    outs:
+    - path: data/preprocessed
+      md5: ee1743c29293cff359d583fe2ef0729d
+      size: 480751

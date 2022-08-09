@@ -1,9 +1,23 @@
 stages:
   unzip_dataset:
-    cmd: python src/stages/unzip_dataset.py
+    cmd: python src/stages/unzip_dataset.py --params=params.yaml
     deps:
-    - data/archive.zip
-    - src/stages/unzip_dataset.py
+      - src/stages/unzip_dataset.py
+      - ${unzip_dataset.data_root}/${unzip_dataset.archive_baseline}
+    params:
+      - unzip_dataset
     outs:
-    - data/images_128:
-        cache: false
+      - ${unzip_dataset.data_root}/${unzip_dataset.dataset_baseline}:
+          cache: false
+  preprocess_dataset:
+    cmd: python src/stages/preprocess_dataset.py --params=params.yaml
+    deps:
+      - src/stages/preprocess_dataset.py
+      - ${unzip_dataset.data_root}/${unzip_dataset.dataset_baseline}
+    params:
+      - unzip_dataset
+      - preprocess_dataset
+    outs:
+      - ${unzip_dataset.data_root}/${preprocess_dataset.output_folder}:
+          cache: false 
+# Split to test and train

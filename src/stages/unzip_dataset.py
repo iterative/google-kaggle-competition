@@ -6,10 +6,10 @@ import yaml
 
 def main(params):
     stage_params = yaml.safe_load(open(params))
-    data_root = Path(stage_params["data"]['data_root'])
-    dataset_path = stage_params["data"]["dataset_baseline"]
+    data_root = Path(stage_params["unzip_dataset"]['data_root'])
+    dataset_path = stage_params["unzip_dataset"]["dataset_baseline"]
 
-    zipfile = ZipFile(data_root / stage_params["data"]["archive_baseline"] )
+    zipfile = ZipFile(data_root / stage_params["unzip_dataset"]["archive_baseline"] )
     zipfile.extractall(path=data_root)
 
 

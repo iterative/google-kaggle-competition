@@ -1,4 +1,13 @@
-data:
+unzip_dataset:
   archive_baseline: archive.zip
   data_root: data
   dataset_baseline: images_128
+
+preprocess_dataset:
+  batch_size: 4
+  center_crop: 224
+  normalize_mean: [0.485, 0.456, 0.406]
+  normalize_std: [0.229, 0.224, 0.225]
+  output_folder: preprocessed
+  resize: 236
+
