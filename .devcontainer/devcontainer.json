@@ -3,6 +3,7 @@
     "build": {
       "dockerfile": "Dockerfile"
     },
+    "runArgs": ["--ipc=host"],
     "extensions": ["Iterative.dvc",         
                   "ms-toolsai.jupyter",
                   "ms-python.python"],

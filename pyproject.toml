@@ -10,9 +10,14 @@ torch = "^1.12.0"
 dvc = {extras = ["s3"], version = "^2.16.0"}
 torchvision = "^0.13.0"
 PyYAML = "^6.0"
+matplotlib = "^3.5.2"
+transformers = "^4.21.1"
+dvclive = "^0.10.0"
+split-folders = "^0.5.1"
 
 [tool.poetry.dev-dependencies]
 jupyter = "^1.0.0"
+black = "^22.6.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

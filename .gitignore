@@ -12,6 +12,7 @@ build/
 data/images_224
 develop-eggs/
 dist/
+data/teacher_data/Dishes
 downloads/
 eggs/
 .eggs/
@@ -128,3 +129,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+/data/small_data
+/data/preprocessed

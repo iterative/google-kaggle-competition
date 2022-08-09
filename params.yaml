@@ -2,3 +2,29 @@ data:
   archive_baseline: archive.zip
   data_root: data
   dataset_baseline: images_128
+  teacher_data: teacher_data
+
+teacher_models:
+  - Dishes
+  # - Landmarks
+
+preprocess_dataset:
+  batch_size: 4
+  center_crop: 224
+  normalize_mean: [0.485, 0.456, 0.406]
+  normalize_std: [0.229, 0.224, 0.225]
+  output_folder: preprocessed
+  resize: 236
+
+split_dataset:
+  index_search:
+    output_folder: index_search_splitted
+    index_search_ratio: 0.3
+    seed: 1337
+  teacher_models:
+    output_folder: teacher_splitted
+    seed: 1337
+    test_ratio: 0.3
+  
+
+
