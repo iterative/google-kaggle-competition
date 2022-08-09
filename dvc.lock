@@ -64,12 +64,12 @@ stages:
     cmd: python src/stages/split_dataset.py --params=params.yaml
     deps:
     - path: data/teacher_data
-      md5: 3f6aeeae0ce574394194e98059ef537c.dir
-      size: 455303645
-      nfiles: 9003
+      md5: e0ddac05f8784ae52b586d1ea475923f.dir
+      size: 1504868004
+      nfiles: 25
     - path: src/stages/split_dataset.py
-      md5: ab66b23736e587a88dd6b508961269fd
-      size: 2162
+      md5: 1a66358f99566e5aaea25113f522f5d9
+      size: 2114
     params:
       params.yaml:
         data:
@@ -88,10 +88,24 @@ stages:
             test_ratio: 0.3
     outs:
     - path: data/index_search_splitted
-      md5: 68716079e18cbe2389c7f04a6bb843b3.dir
-      size: 68241849
-      nfiles: 2700
+      md5: 45488de142622b7fb28577e3d8365e47.dir
+      size: 269048467
+      nfiles: 5558
     - path: data/teacher_splitted
-      md5: bf382f58e31b76b7effe32b2e11d843d.dir
-      size: 159616668
-      nfiles: 6300
+      md5: 43878e7fc90338093d632b98439f0203.dir
+      size: 608813372
+      nfiles: 12889
+  unzip_dataset@Landmarks:
+    cmd: python src/stages/unzip_dataset.py --teacher Landmarks
+    deps:
+    - path: data/teacher_data/Landmarks.zip
+      md5: 350c8ab421310f9717eac242faa3b409
+      size: 638370990
+    - path: src/stages/unzip_dataset.py
+      md5: 050f7b8f334b203edc83c4d39380451d
+      size: 1018
+    outs:
+    - path: data/teacher_data/Landmarks
+      md5: ed9b37f78567165ee5b8c769abe312f8.dir
+      size: 650138566
+      nfiles: 9466

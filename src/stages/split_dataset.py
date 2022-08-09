@@ -34,8 +34,8 @@ def split_for_train_and_index_search(params):
         train_ml_ratio = 1-index_search_ratio
 
         splitfolders.ratio(input_folder, output=output_folder, seed=seed, ratio=(train_ml_ratio, index_search_ratio), move=True)
-    os.rename(output_folder/'train', output_folder/'train_ml')
-    os.rename(output_folder/'val', output_folder/'index_search')
+        os.rename(output_folder/'train', output_folder/'train_ml')
+        os.rename(output_folder/'val', output_folder/'index_search')
 
 
 if __name__ == '__main__':

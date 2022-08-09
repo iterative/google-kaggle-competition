@@ -6,6 +6,7 @@ data:
 
 teacher_models:
   - Dishes
+  - Landmarks
 
 preprocess_dataset:
   batch_size: 4
