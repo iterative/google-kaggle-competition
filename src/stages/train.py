@@ -19,7 +19,7 @@ from metrics import AccumulatedAccuracyMetric
 from torchvision.transforms import ToTensor
 
 
-def train():
+def train(teacher_area):
     train_dataset = ImageFolder("data/teacher_splitted/Dishes/train", transform=ToTensor())
     val_dataset = ImageFolder("data/teacher_splitted/Dishes/train", transform=ToTensor())
 
@@ -58,7 +58,7 @@ def train():
     
     n_epochs = 4
     log_interval = 10
-    fit(triplet_train_loader, triplet_test_loader,  model, loss_fn, optimizer, scheduler, n_epochs, cuda, log_interval)#, metrics=[AccumulatedAccuracyMetric()])
+    fit(triplet_train_loader, triplet_test_loader,  model, loss_fn, optimizer, scheduler, n_epochs, cuda, log_interval, log_folder=f"dvclive_{teacher_area}")#, metrics=[AccumulatedAccuracyMetric()])
 
     torch.save(model, "model.pt")
 
@@ -66,7 +66,7 @@ if __name__=="__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--teacher", default="Dishes")
     cli_params = parser.parse_args()
-    train()
+    train(cli_params.teacher)
 
 
 

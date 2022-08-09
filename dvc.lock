@@ -20,35 +20,6 @@ stages:
       md5: 2d35f1eb05bc40c5bb7ec7e7d12cc44f.dir
       size: 294272494
       nfiles: 9347
-<<<<<<< HEAD
-=======
-  preprocess_dataset:
-    cmd: python src/stages/preprocess_dataset.py --params=params.yaml
-    deps:
-    - path: src/stages/preprocess_dataset.py
-      md5: e2844b5827ad884c8ac76d09349a578c
-      size: 1440
-    params:
-      params.yaml:
-        data:
-          archive_baseline: archive.zip
-          data_root: data
-          dataset_baseline: images_128
-          teacher_data: teacher_data
-        preprocess_dataset:
-          batch_size: 4
-          center_crop: 224
-          normalize_mean:
-          - 0.485
-          - 0.456
-          - 0.406
-          normalize_std:
-          - 0.229
-          - 0.224
-          - 0.225
-          output_folder: preprocessed
-          resize: 236
->>>>>>> dan/data_pipeline
   unzip_dataset@Dishes:
     cmd: python src/stages/unzip_dataset.py --teacher Dishes
     deps:
@@ -56,27 +27,20 @@ stages:
       md5: 9df78eee5fa02415ebf3d46b45a73c50
       size: 227445027
     - path: src/stages/unzip_dataset.py
-<<<<<<< HEAD
-      md5: 7c2f5cdeb83fac5516101d5f68d6b568
-      size: 711
-=======
-      md5: 050f7b8f334b203edc83c4d39380451d
-      size: 1018
->>>>>>> dan/data_pipeline
+      md5: 4769d26ff7a1910c16fc15a6ef7ebd39
+      size: 1011
     outs:
     - path: data/teacher_data/Dishes
       md5: b23cf150b12c80be59b94ca9a48ebc24.dir
       size: 227858517
       nfiles: 9000
-<<<<<<< HEAD
-=======
   split_dataset:
     cmd: python src/stages/split_dataset.py --params=params.yaml
     deps:
     - path: data/teacher_data
-      md5: e0ddac05f8784ae52b586d1ea475923f.dir
-      size: 1504868004
-      nfiles: 25
+      md5: 66e9d5eb0583773c3eba72de9662295e.dir
+      size: 865939146
+      nfiles: 22
     - path: src/stages/split_dataset.py
       md5: 1a66358f99566e5aaea25113f522f5d9
       size: 2114
@@ -98,25 +62,28 @@ stages:
             test_ratio: 0.3
     outs:
     - path: data/index_search_splitted
-      md5: 45488de142622b7fb28577e3d8365e47.dir
-      size: 269048467
-      nfiles: 5558
+      md5: 68716079e18cbe2389c7f04a6bb843b3.dir
+      size: 68241849
+      nfiles: 2700
     - path: data/teacher_splitted
-      md5: 43878e7fc90338093d632b98439f0203.dir
-      size: 608813372
-      nfiles: 12889
-  unzip_dataset@Landmarks:
-    cmd: python src/stages/unzip_dataset.py --teacher Landmarks
+      md5: bf382f58e31b76b7effe32b2e11d843d.dir
+      size: 159616668
+      nfiles: 6300
+  train_teacher_model@Dishes:
+    cmd: python src/stages/train.py --teacher Dishes
     deps:
-    - path: data/teacher_data/Landmarks.zip
-      md5: 350c8ab421310f9717eac242faa3b409
-      size: 638370990
-    - path: src/stages/unzip_dataset.py
-      md5: 050f7b8f334b203edc83c4d39380451d
-      size: 1018
+    - path: data/teacher_splitted/Dishes
+      md5: 093f82c5da9bc9c4112630ac61c3b24d.dir
+      size: 159616668
+      nfiles: 6300
+    - path: src/stages/train.py
+      md5: 000317f81b9599f9fe43a362fef0442d
+      size: 2504
     outs:
-    - path: data/teacher_data/Landmarks
-      md5: ed9b37f78567165ee5b8c769abe312f8.dir
-      size: 650138566
-      nfiles: 9466
->>>>>>> dan/data_pipeline
+    - path: dvclive_Dishes.json
+      md5: df5698878a36512a72423077c83d2391
+      size: 128
+    - path: dvclive_Dishes/scalars
+      md5: 82331e432a8bda2cd83bd78563146c49.dir
+      size: 473
+      nfiles: 3

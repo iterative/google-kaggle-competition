@@ -3,7 +3,7 @@ import numpy as np
 from dvclive import Live
 
 def fit(train_loader, val_loader,  model, loss_fn, optimizer, scheduler, n_epochs, cuda, log_interval, metrics=[],
-        start_epoch=0):
+        start_epoch=0, log_folder=""):
     """
     Loaders, model, loss function and metrics should work together for a given task,
     i.e. The model should be able to process data output of loaders,
@@ -15,7 +15,7 @@ def fit(train_loader, val_loader,  model, loss_fn, optimizer, scheduler, n_epoch
     """
     # for epoch in range(0, start_epoch):
     #     scheduler.step()
-    live = Live()
+    live = Live(log_folder)
     for epoch in range(start_epoch, n_epochs):
 
         # Train stage
