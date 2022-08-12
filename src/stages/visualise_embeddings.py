@@ -10,7 +10,7 @@ from trainer import fit
 import numpy as np
 cuda = torch.cuda.is_available()
 from torchvision.transforms import ToTensor
-
+import umap
 import matplotlib
 import matplotlib.pyplot as plt
 
@@ -22,7 +22,7 @@ def plot_embeddings(embeddings, targets, xlim=None, ylim=None, classes=None):
    
 
     plt.figure(figsize=(10,10))
-    for i in range(10):
+    for i in range(len(classes)):
         inds = np.where(targets==i)[0]
         plt.scatter(embeddings[inds,0], embeddings[inds,1], alpha=0.5, color=colors[i])
     if xlim:
@@ -35,7 +35,7 @@ def plot_embeddings(embeddings, targets, xlim=None, ylim=None, classes=None):
 def extract_embeddings(dataloader, model):
     with torch.no_grad():
         model.eval()
-        embeddings = np.zeros((len(dataloader.dataset), 2))
+        embeddings = np.zeros((len(dataloader.dataset), 64)) #TODO 64 --> embedding_size
         labels = np.zeros(len(dataloader.dataset))
         k = 0
         for images, target in dataloader:
@@ -52,6 +52,8 @@ def visualise():
     val_dataset = ImageFolder("data/teacher_splitted/Dishes/train", transform=ToTensor())
     data_loader = torch.utils.data.DataLoader(val_dataset, batch_size=128, shuffle=False)
     train_embeddings_tl, train_labels_tl = extract_embeddings(data_loader, model)
+    dim_reduction = umap.UMAP()
+    train_embeddings_low_dim = dim_reduction.fit_transform(train_embeddings_tl)
     plot_embeddings(train_embeddings_tl, train_labels_tl, classes=val_dataset.classes)
 
 

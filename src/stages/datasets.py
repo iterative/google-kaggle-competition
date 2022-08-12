@@ -82,7 +82,7 @@ class TripletMNIST(Dataset):
     Test: Creates fixed triplets for testing
     """
 
-    def __init__(self, dataset, train, subset_indices=None):
+    def __init__(self, dataset, train, subset_indices=None, transform=None):
 
         # if subset_indices is not None:
         #     self.dataset = dataset[subset_indices]
@@ -90,7 +90,7 @@ class TripletMNIST(Dataset):
         #     self.dataset = dataset
         self.dataset = dataset
         self.train = train
-        self.transform = None
+        self.transform = transform
         self.labels = np.array(self.dataset.targets)
         # self.data = self.dataset
         self.subset_indices = subset_indices
