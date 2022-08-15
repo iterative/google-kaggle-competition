@@ -3,7 +3,9 @@ name = "google-kaggle"
 version = "0.1.0"
 description = ""
 authors = ["Yury <yury@iterative.ai>"]
-
+packages = [
+    { include = "src" },
+]
 [tool.poetry.dependencies]
 python = "^3.10"
 torch = "^1.12.0"
