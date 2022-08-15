@@ -16,6 +16,8 @@ matplotlib = "^3.5.2"
 transformers = "^4.21.1"
 dvclive = "^0.10.0"
 split-folders = "^0.5.1"
+llvmlite = "0.39.0" # this is needed to install umap-learn. without it umap installs earlier version of this package which is broken 
+umap-learn = "^0.5.3"
 
 [tool.poetry.dev-dependencies]
 jupyter = "^1.0.0"
