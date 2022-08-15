@@ -7,12 +7,12 @@ import torch
 class EmbeddingNet(nn.Module):
     def __init__(self):
         super(EmbeddingNet, self).__init__()
-        self.convnet = nn.Sequential(nn.Conv2d(3, 64, 7), nn.PReLU(),
-                                     nn.MaxPool2d(2, stride=2),
-                                     nn.Conv2d(64, 64, 5), nn.PReLU(),
-                                     nn.MaxPool2d(2, stride=2),
-                                     nn.Conv2d(64, 64, 3), nn.PReLU(),
-                                     nn.MaxPool2d(2,stride=2))
+        # self.convnet = nn.Sequential(nn.Conv2d(3, 64, 7), nn.PReLU(),
+        #                              nn.MaxPool2d(2, stride=2),
+        #                              nn.Conv2d(64, 64, 5), nn.PReLU(),
+        #                              nn.MaxPool2d(2, stride=2),
+        #                              nn.Conv2d(64, 64, 3), nn.PReLU(),
+        #                              nn.MaxPool2d(2,stride=2))
         # self.feature_extractor = AutoFeatureExtractor.from_pretrained("microsoft/resnet-50")
         # self.feature_extractor =  ResNetModel.from_pretrained("microsoft/resnet-50")
         self.resnet = resnet50()

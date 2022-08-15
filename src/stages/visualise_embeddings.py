@@ -1,17 +1,9 @@
 import torch
-
-
-import torch
-from torch.optim import lr_scheduler
-import torch.optim as optim
-from torch.autograd import Variable
 from torchvision.datasets import ImageFolder
-from trainer import fit
 import numpy as np
 cuda = torch.cuda.is_available()
 from torchvision.transforms import ToTensor
 import umap
-import matplotlib
 import matplotlib.pyplot as plt
 
 colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728',

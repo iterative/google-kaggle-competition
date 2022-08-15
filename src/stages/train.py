@@ -1,21 +1,15 @@
 import torch
 from torch.optim import lr_scheduler
 import torch.optim as optim
-from torch.autograd import Variable
 
-from datasets import TripletMNIST
+from src.utils.datasets import TripletMNIST
 
-from trainer import fit
-import numpy as np
-import argparse 
-import matplotlib
-import matplotlib.pyplot as plt
+from src.utils.trainer import fit
+import argparse
 from torch.utils.data import random_split
 from torch.nn import TripletMarginLoss
-from networks import EmbeddingNet, TripletNet
+from src.utils.networks import EmbeddingNet, TripletNet
 from torchvision.datasets import ImageFolder
-from losses import TripletLoss
-from metrics import AccumulatedAccuracyMetric
 from torchvision.transforms import ToTensor
 
 
