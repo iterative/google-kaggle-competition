@@ -1,20 +1,25 @@
 data:
   archive_baseline: archive.zip
-  data_root: data
+  root: data
   dataset_baseline: images_128
   teacher_data: teacher_data
+  train_data: teacher_splitted
 
 teacher_models:
-  - Dishes
-  - Landmarks
-
-preprocess_dataset:
-  batch_size: 4
-  center_crop: 224
-  normalize_mean: [0.485, 0.456, 0.406]
-  normalize_std: [0.229, 0.224, 0.225]
-  output_folder: preprocessed
-  resize: 236
+   - Benchmark
+  # - Dishes
+  # - Landmarks
+  # - MNIST_exp
+train:
+  model_path: "models"
+  model_file: "model.pt"
+  batch_size: 64
+  margin: 100
+  lr: 0.001
+  epochs: 50
+  embedding_size: 64
+plots:
+  root: "plots"
 
 split_dataset:
   index_search:

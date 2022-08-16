@@ -6,7 +6,7 @@ import yaml
 
 def main(params):
     stage_params = yaml.safe_load(open(params.params))
-    data_root = Path(stage_params["data"]["data_root"])
+    data_root = Path(stage_params["data"]["root"])
     teacher_data_path = stage_params["data"]["teacher_data"]
 
     if params.teacher:

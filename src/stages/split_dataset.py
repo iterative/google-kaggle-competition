@@ -10,7 +10,6 @@ def split_for_train_and_test_teacher_model(params):
     data_root = Path(stage_params["data"]['root'])
 
     for model_name in stage_params['teacher_models']:
-        #input_folder = data_root/Path(stage_params["data"]['teacher_data'])/model_name
         input_folder = data_root/Path(stage_params["split_dataset"]['index_search']['output_folder'])/model_name/'train_ml'
         output_folder = data_root/Path(stage_params["split_dataset"]['teacher_models']['output_folder'])/model_name
         

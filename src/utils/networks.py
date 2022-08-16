@@ -9,39 +9,26 @@ from torchvision import transforms
 
 
 class EmbeddingNet(nn.Module):
-    def __init__(self):
+    def __init__(self, embedding_size=64):
         super(EmbeddingNet, self).__init__()
         self.embedding = nn.Sequential(nn.Conv2d(3, 64, 5), nn.PReLU(),
                                      nn.MaxPool2d(2, stride=2),
                                      nn.Conv2d(64, 64, 5), nn.PReLU(),
                                      nn.MaxPool2d(2, stride=2))
-                                    #  nn.Conv2d(64, 64, 3), nn.PReLU(),
-                                    #  nn.MaxPool2d(2,stride=2))
-        # self.feature_extractor = AutoFeatureExtractor.from_pretrained("microsoft/resnet-50")
-        # self.feature_extractor =  ResNetModel.from_pretrained("microsoft/resnet-50")
-        # self.resnet = resnet50()
-        # self.embedding = efficientnet_b5()
-        # modules=list(self.embedding.children())[:-1]
-        # self.resnet=nn.Sequential(*modules)
-        # for p in self.resnet.parameters():
-        #     p.requires_grad = False
-        # weights = ResNet50_Weights.DEFAULT
-        # weights = EfficientNet_B5_Weights.DEFAULT
-        # weights.
-        # self.transforms = weights.transforms()
+ 
 
         self.transforms = transforms.Compose([
-        transforms.ToPILImage(),
-        # transforms.Resize(256),
-        # transforms.CenterCrop(224),
-        transforms.ToTensor()
+        transforms.ToTensor(),
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
        ])
 
+        self.embedding_size = embedding_size
         self.fc = nn.Sequential(nn.Linear(179776, 256),
                                 nn.PReLU(),
                                 # nn.Linear(256, 256),
                                 nn.PReLU(),
-                                nn.Linear(256, 64)
+                                nn.Linear(256, self.embedding_size)
                                 )
 
     def forward(self, x):

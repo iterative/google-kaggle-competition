@@ -49,10 +49,11 @@ stages:
     do:
       cmd: python src/stages/visualise_embeddings.py --params=params.yaml --teacher ${item}
       deps: 
-        - ${train.model_path}/${item}/model.pt
+        - ${train.model_path}/teacher/${item}/model.pt
         - src/stages/visualise_embeddings.py
       plots:
-       - ${plots.root}/teacher/${item}.png
+       - ${plots.root}/${item}/embedding.png:
+          cache: false
 
 #  preprocess_dataset:
 #    cmd: python src/stages/preprocess_dataset.py --params=params.yaml
