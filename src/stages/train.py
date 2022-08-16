@@ -50,7 +50,11 @@ def train(cli_params):
     scheduler = lr_scheduler.StepLR(optimizer, 22, gamma=0.1, last_epoch=-1)
     n_epochs = params["train"]["epochs"]
     log_interval = 10
-    fit(triplet_train_loader, triplet_test_loader,  model, loss_fn, optimizer, scheduler, n_epochs, cuda, log_interval, log_folder=f"dvclive_{teacher_area}")
+
+
+    dvclive_path = Path(params["reports"]["root"]) / f"dvclive_{teacher_area}"
+    dvclive_path.mkdir(parents=True, exist_ok=True)
+    fit(triplet_train_loader, triplet_test_loader,  model, loss_fn, optimizer, scheduler, n_epochs, cuda, log_interval, log_folder=dvclive_path)
     
     model_path = Path(params["train"]["model_path"]) / "teacher" / cli_params.teacher 
     model_path.mkdir(exist_ok=True)

@@ -1,0 +1,6 @@
+{
+    "step": 11,
+    "training_loss": 27.239396545622085,
+    "validation_lss": 66.85306499850365,
+    "learning_rate": 0.001
+}

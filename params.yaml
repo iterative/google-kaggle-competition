@@ -18,8 +18,12 @@ train:
   lr: 0.001
   epochs: 50
   embedding_size: 64
-plots:
-  root: "plots"
+
+reports:
+  root: "reports"
+  plots: "plots"
+
+
 
 split_dataset:
   index_search:

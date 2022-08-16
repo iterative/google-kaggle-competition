@@ -22,10 +22,10 @@ stages:
       - ${train.model_path}/teacher/${item}/model.pt:
           cache: false
       metrics:
-      - dvclive_${item}.json:
+      - ${reports.root}/dvclive_${item}.json:
           cache: false
       plots:
-      - dvclive_${item}/scalars:
+      - ${reports.root}/dvclive_${item}/scalars:
           cache: false
 
 
@@ -52,7 +52,7 @@ stages:
         - ${train.model_path}/teacher/${item}/model.pt
         - src/stages/visualise_embeddings.py
       plots:
-       - ${plots.root}/${item}/embedding.png:
+       - ${reports.root}/${reports.plots}/${item}/embedding.png:
           cache: false
 
 #  preprocess_dataset:
