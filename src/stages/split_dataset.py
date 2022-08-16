@@ -7,12 +7,12 @@ import yaml
 
 def split_for_train_and_test_teacher_model(params):
     stage_params = yaml.safe_load(open(params))
-    data_root = Path(stage_params["data"]['root'])
+    data_root = Path(stage_params["data"]['data_root'])
 
     for model_name in stage_params['teacher_models']:
         #input_folder = data_root/Path(stage_params["data"]['teacher_data'])/model_name
-        input_folder = data_root/Path(stage_params["split_dataset"]['index_search']['output_folder'])/model_name/'train_ml'
-        output_folder = data_root/Path(stage_params["split_dataset"]['teacher_models']['output_folder'])/model_name
+        input_folder = data_root/Path(stage_params["split_dataset"]['index_search']['output_folder'])/'train_ml'
+        output_folder = data_root/Path(stage_params["split_dataset"]['teacher_models']['output_folder'])
         
         seed = stage_params["split_dataset"]['teacher_models']['seed']
         test_ratio = stage_params["split_dataset"]['teacher_models']['test_ratio']
@@ -23,11 +23,11 @@ def split_for_train_and_test_teacher_model(params):
 
 def split_for_train_and_index_search(params):
     stage_params = yaml.safe_load(open(params))
-    data_root = Path(stage_params["data"]['root'])
+    data_root = Path(stage_params["data"]['data_root'])
 
     for model_name in stage_params['teacher_models']:
-        input_folder = data_root/Path(stage_params["data"]['teacher_data'])/model_name
-        output_folder = data_root/Path(stage_params["split_dataset"]['index_search']['output_folder'])/model_name
+        input_folder = data_root/Path(stage_params["data"]['teacher_data'])
+        output_folder = data_root/Path(stage_params["split_dataset"]['index_search']['output_folder'])
         
         seed = stage_params["split_dataset"]['index_search']['seed']
         index_search_ratio = stage_params["split_dataset"]['index_search']['index_search_ratio']

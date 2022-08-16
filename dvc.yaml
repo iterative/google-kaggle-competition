@@ -3,9 +3,9 @@ stages:
     foreach: ${teacher_models}
     do:
       cmd: python src/stages/unzip_dataset.py --teacher ${item}
-      outs:
-      - data/teacher_data/${item}:
-          cache: false
+      #outs:
+      #- data/teacher_data/${item}:
+      #    cache: false
       deps:
       - data/teacher_data/${item}.zip
       - src/stages/unzip_dataset.py
