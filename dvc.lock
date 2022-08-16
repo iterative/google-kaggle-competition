@@ -195,12 +195,12 @@ stages:
       Benchmark
     deps:
     - path: models/teacher/Benchmark/model.pt
-      md5: 4f6bd4c767f26a58aaa9fde9ab7147b7
-      size: 184593921
+      md5: 543abae88407652a08c96b4b37d70088
+      size: 51193145
     - path: src/stages/visualise_embeddings.py
-      md5: 0a875897875c61563b5910f218d1ba5c
-      size: 2658
+      md5: b6489093c57c88f2ab68689193b1224a
+      size: 2695
     outs:
-    - path: plots/Benchmark/embedding.png
-      md5: 60f1e2797a8d8b6c0521b7e26199918d
-      size: 257776
+    - path: reports/plots/Benchmark/embedding.png
+      md5: dbe74cb399528a8e72ca549d17998b03
+      size: 116519
