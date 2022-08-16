@@ -18,8 +18,9 @@ stages:
       # - data/teacher_data/${item}
       - data/teacher_splitted/${item}
       - src/stages/train.py
-      # outs:
-      # - model.pt
+      outs:
+      - ${train.model_path}/${item}/model.pt:
+          cache: false
       metrics:
       - dvclive_${item}.json:
           cache: false
@@ -31,9 +32,9 @@ stages:
   split_dataset:
     cmd: python src/stages/split_dataset.py --params=params.yaml
     outs:
-    - ${data.data_root}/${split_dataset.index_search.output_folder}:
+    - ${data.root}/${split_dataset.index_search.output_folder}:
         cache: false
-    - ${data.data_root}/${split_dataset.teacher_models.output_folder}:
+    - ${data.root}/${split_dataset.teacher_models.output_folder}:
         cache: false
     deps:
       - data/teacher_data
@@ -41,6 +42,17 @@ stages:
     params:
       - data
       - split_dataset
+  
+
+  visualise:
+    foreach: ${teacher_models}
+    do:
+      cmd: python src/stages/visualise_embeddings.py --params=params.yaml --teacher ${item}
+      deps: 
+        - ${train.model_path}/${item}/model.pt
+        - src/stages/visualise_embeddings.py
+      plots:
+       - ${plots.root}/teacher/${item}.png
 
 #  preprocess_dataset:
 #    cmd: python src/stages/preprocess_dataset.py --params=params.yaml

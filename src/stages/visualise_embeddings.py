@@ -1,6 +1,7 @@
 import torch
 from torchvision.datasets import ImageFolder
 import numpy as np
+import argparse
 cuda = torch.cuda.is_available()
 from torchvision.transforms import ToTensor
 import umap
@@ -39,9 +40,9 @@ def extract_embeddings(dataloader, model):
     return embeddings, labels
 
 
-def visualise():
+def visualise(params):
     model = torch.load("model.pt")
-    val_dataset = ImageFolder("data/teacher_splitted/Dishes/train", transform=ToTensor())
+    val_dataset = ImageFolder("data/teacher_splitted/MNIST_exp/val", transform=ToTensor())
     data_loader = torch.utils.data.DataLoader(val_dataset, batch_size=128, shuffle=False)
     train_embeddings_tl, train_labels_tl = extract_embeddings(data_loader, model)
     dim_reduction = umap.UMAP()
@@ -53,4 +54,7 @@ def visualise():
 
 
 if __name__=="__main__":
-    visualise()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--teacher", default="Dishes")
+    cli_params = parser.parse_args()
+    visualise(cli_params)

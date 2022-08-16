@@ -38,9 +38,9 @@ stages:
     cmd: python src/stages/split_dataset.py --params=params.yaml
     deps:
     - path: data/teacher_data
-      md5: 5cfc0ec97bc7b835104803186a3b4768.dir
-      size: 865951452
-      nfiles: 24
+      md5: c1a89b13c90bf12ff747520c7174aeef.dir
+      size: 955152492
+      nfiles: 71927
     - path: src/stages/split_dataset.py
       md5: 1a66358f99566e5aaea25113f522f5d9
       size: 2114
@@ -77,15 +77,15 @@ stages:
       size: 159616668
       nfiles: 6300
     - path: src/stages/train.py
-      md5: 000317f81b9599f9fe43a362fef0442d
-      size: 2504
+      md5: 295732f3a22c7c452a7b8415fcf134cf
+      size: 2556
     outs:
     - path: dvclive_Dishes.json
-      md5: df5698878a36512a72423077c83d2391
+      md5: 5f27912055886d2e167d70279c06b8d7
       size: 128
     - path: dvclive_Dishes/scalars
-      md5: 82331e432a8bda2cd83bd78563146c49.dir
-      size: 473
+      md5: 7c282eafb9daba4547e9cca91a0940b2.dir
+      size: 280
       nfiles: 3
   unzip_dataset@Landmarks:
     cmd: python src/stages/unzip_dataset.py --teacher Landmarks
@@ -109,13 +109,45 @@ stages:
       size: 449196704
       nfiles: 6589
     - path: src/stages/train.py
-      md5: 000317f81b9599f9fe43a362fef0442d
-      size: 2504
+      md5: 295732f3a22c7c452a7b8415fcf134cf
+      size: 2556
     outs:
     - path: dvclive_Landmarks.json
-      md5: db9bd089efe29f49a2943857daf8c2b8
+      md5: 388768eabe6a9a2de6c5dae43ef1d31f
       size: 128
     - path: dvclive_Landmarks/scalars
-      md5: fcd85f19bc81448fa09fae0fdaaa846d.dir
-      size: 472
+      md5: 2c23d854e493e5bfecb8aa7b5ea259f8.dir
+      size: 281
+      nfiles: 3
+  unzip_dataset@MNIST_exp:
+    cmd: python src/stages/unzip_dataset.py --teacher MNIST_exp
+    deps:
+    - path: data/teacher_data/MNIST_exp.zip
+      md5: 9e93d35c365afad58547dda9de1d9e20
+      size: 31006560
+    - path: src/stages/unzip_dataset.py
+      md5: 4769d26ff7a1910c16fc15a6ef7ebd39
+      size: 1011
+    outs:
+    - path: data/teacher_data/MNIST_exp
+      md5: fab796cd12e859f053717904e923682d.dir
+      size: 23551113
+      nfiles: 42000
+  train_teacher_model@MNIST_exp:
+    cmd: python src/stages/train.py --teacher MNIST_exp
+    deps:
+    - path: data/teacher_splitted/MNIST_exp
+      md5: 969d28a80afa27ab23c1baff2e3465db.dir
+      size: 16480205
+      nfiles: 29394
+    - path: src/stages/train.py
+      md5: e1b20a391c217bcc743e9761f5ae13ba
+      size: 2554
+    outs:
+    - path: dvclive_MNIST_exp.json
+      md5: a1aef61345c46df60e4a248128570293
+      size: 129
+    - path: dvclive_MNIST_exp/scalars
+      md5: 67d413471fdb069f7f179288156289a4.dir
+      size: 1052
       nfiles: 3

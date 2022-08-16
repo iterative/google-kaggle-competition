@@ -7,7 +7,7 @@ import yaml
 
 def split_for_train_and_test_teacher_model(params):
     stage_params = yaml.safe_load(open(params))
-    data_root = Path(stage_params["data"]['data_root'])
+    data_root = Path(stage_params["data"]['root'])
 
     for model_name in stage_params['teacher_models']:
         #input_folder = data_root/Path(stage_params["data"]['teacher_data'])/model_name
@@ -23,7 +23,7 @@ def split_for_train_and_test_teacher_model(params):
 
 def split_for_train_and_index_search(params):
     stage_params = yaml.safe_load(open(params))
-    data_root = Path(stage_params["data"]['data_root'])
+    data_root = Path(stage_params["data"]['root'])
 
     for model_name in stage_params['teacher_models']:
         input_folder = data_root/Path(stage_params["data"]['teacher_data'])/model_name

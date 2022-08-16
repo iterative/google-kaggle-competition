@@ -3,27 +3,41 @@ import torch.nn.functional as F
 from transformers import AutoFeatureExtractor, ResNetModel
 from torchvision.models.resnet import resnet50
 from torchvision.models import resnet50, ResNet50_Weights
+from torchvision.models.efficientnet import efficientnet_b5
 import torch
+from torchvision import transforms
+
+
 class EmbeddingNet(nn.Module):
     def __init__(self):
         super(EmbeddingNet, self).__init__()
-        # self.convnet = nn.Sequential(nn.Conv2d(3, 64, 7), nn.PReLU(),
-        #                              nn.MaxPool2d(2, stride=2),
-        #                              nn.Conv2d(64, 64, 5), nn.PReLU(),
-        #                              nn.MaxPool2d(2, stride=2),
-        #                              nn.Conv2d(64, 64, 3), nn.PReLU(),
-        #                              nn.MaxPool2d(2,stride=2))
+        self.embedding = nn.Sequential(nn.Conv2d(3, 64, 5), nn.PReLU(),
+                                     nn.MaxPool2d(2, stride=2),
+                                     nn.Conv2d(64, 64, 5), nn.PReLU(),
+                                     nn.MaxPool2d(2, stride=2))
+                                    #  nn.Conv2d(64, 64, 3), nn.PReLU(),
+                                    #  nn.MaxPool2d(2,stride=2))
         # self.feature_extractor = AutoFeatureExtractor.from_pretrained("microsoft/resnet-50")
         # self.feature_extractor =  ResNetModel.from_pretrained("microsoft/resnet-50")
-        self.resnet = resnet50()
-        from torch.autograd import Variable
-        modules=list(self.resnet.children())[:-1]
-        self.resnet=nn.Sequential(*modules)
-        for p in self.resnet.parameters():
-            p.requires_grad = False
-        weights = ResNet50_Weights.DEFAULT
-        self.transforms = weights.transforms()
-        self.fc = nn.Sequential(nn.Linear(2048, 256),
+        # self.resnet = resnet50()
+        # self.embedding = efficientnet_b5()
+        # modules=list(self.embedding.children())[:-1]
+        # self.resnet=nn.Sequential(*modules)
+        # for p in self.resnet.parameters():
+        #     p.requires_grad = False
+        # weights = ResNet50_Weights.DEFAULT
+        # weights = EfficientNet_B5_Weights.DEFAULT
+        # weights.
+        # self.transforms = weights.transforms()
+
+        self.transforms = transforms.Compose([
+        transforms.ToPILImage(),
+        # transforms.Resize(256),
+        # transforms.CenterCrop(224),
+        transforms.ToTensor()
+       ])
+
+        self.fc = nn.Sequential(nn.Linear(179776, 256),
                                 nn.PReLU(),
                                 # nn.Linear(256, 256),
                                 nn.PReLU(),
@@ -32,7 +46,7 @@ class EmbeddingNet(nn.Module):
 
     def forward(self, x):
         # output = self.convnet(x)
-        output = self.resnet(x)
+        output = self.embedding(x)
 
         # output = output.last_hidden_state
         # print(output.size())
