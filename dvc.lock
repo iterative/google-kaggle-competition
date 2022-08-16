@@ -177,19 +177,19 @@ stages:
       size: 205297725
       nfiles: 6540
     - path: src/stages/train.py
-      md5: 1853c9b213c0785e2729f59b36a9bf73
-      size: 2565
+      md5: fd64cc779ba38e4866da3cf72ba4af15
+      size: 2685
     outs:
-    - path: dvclive_Benchmark.json
-      md5: f9f3e7137f61624e35d4753df4767b5f
-      size: 127
-    - path: dvclive_Benchmark/scalars
-      md5: 1b5e2bf6c9b528ff4892f8d4c66f3015.dir
-      size: 4892
-      nfiles: 3
     - path: models/teacher/Benchmark/model.pt
-      md5: 4f6bd4c767f26a58aaa9fde9ab7147b7
-      size: 184593921
+      md5: 543abae88407652a08c96b4b37d70088
+      size: 51193145
+    - path: reports/dvclive_Benchmark.json
+      md5: 6e300897cc914290223bcd888f18aa54
+      size: 128
+    - path: reports/dvclive_Benchmark/scalars
+      md5: edb9c447e1bc9886b5330986c00a3e76.dir
+      size: 4868
+      nfiles: 3
   visualise@Benchmark:
     cmd: python src/stages/visualise_embeddings.py --params=params.yaml --teacher
       Benchmark
