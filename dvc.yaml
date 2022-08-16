@@ -19,7 +19,7 @@ stages:
       - data/teacher_splitted/${item}
       - src/stages/train.py
       outs:
-      - ${train.model_path}/${item}/model.pt:
+      - ${train.model_path}/teacher/${item}/model.pt:
           cache: false
       metrics:
       - dvclive_${item}.json:

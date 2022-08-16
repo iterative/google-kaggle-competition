@@ -42,15 +42,16 @@ stages:
       size: 955152492
       nfiles: 71927
     - path: src/stages/split_dataset.py
-      md5: 1a66358f99566e5aaea25113f522f5d9
-      size: 2114
+      md5: 54c24eee20ad2e633bfce6d226d84614
+      size: 2104
     params:
       params.yaml:
         data:
           archive_baseline: archive.zip
-          data_root: data
+          root: data
           dataset_baseline: images_128
           teacher_data: teacher_data
+          train_data: teacher_splitted
         split_dataset:
           index_search:
             output_folder: index_search_splitted
@@ -77,16 +78,19 @@ stages:
       size: 159616668
       nfiles: 6300
     - path: src/stages/train.py
-      md5: 295732f3a22c7c452a7b8415fcf134cf
-      size: 2556
+      md5: c8bab7627a6fe37f871957cdd826313b
+      size: 2961
     outs:
     - path: dvclive_Dishes.json
-      md5: 5f27912055886d2e167d70279c06b8d7
-      size: 128
+      md5: d901153a6ba2fd438bdd8279ce1499bc
+      size: 126
     - path: dvclive_Dishes/scalars
-      md5: 7c282eafb9daba4547e9cca91a0940b2.dir
-      size: 280
+      md5: d6919a6022ead89df1c51b1d58638454.dir
+      size: 184
       nfiles: 3
+    - path: models/teacher/Dishes/model.pt
+      md5: 2ccdd02fe1b46272b718bb8e89c546c8
+      size: 184593409
   unzip_dataset@Landmarks:
     cmd: python src/stages/unzip_dataset.py --teacher Landmarks
     deps:

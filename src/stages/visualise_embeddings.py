@@ -6,6 +6,7 @@ cuda = torch.cuda.is_available()
 from torchvision.transforms import ToTensor
 import umap
 import matplotlib.pyplot as plt
+from pathlib import Path
 
 colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728',
               '#9467bd', '#8c564b', '#e377c2', '#7f7f7f',
@@ -41,6 +42,7 @@ def extract_embeddings(dataloader, model):
 
 
 def visualise(params):
+    model_path = Path(params.model_path) / "teacher" / params.teacher 
     model = torch.load("model.pt")
     val_dataset = ImageFolder("data/teacher_splitted/MNIST_exp/val", transform=ToTensor())
     data_loader = torch.utils.data.DataLoader(val_dataset, batch_size=128, shuffle=False)
