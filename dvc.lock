@@ -38,9 +38,9 @@ stages:
     cmd: python src/stages/split_dataset.py --params=params.yaml
     deps:
     - path: data/teacher_data
-      md5: 993aa10d0a54c6c3a677e2108a6b2ab8.dir
-      size: 616227191
-      nfiles: 72169
+      md5: 4764922b319f7a71e2147e0ad5e37b2e.dir
+      size: 616227278
+      nfiles: 72170
     - path: src/stages/split_dataset.py
       md5: 30fe0e5c5c66fb3bd598f6d5bf61ded5
       size: 2016
@@ -63,13 +63,13 @@ stages:
             test_ratio: 0.3
     outs:
     - path: data/index_search_splitted
-      md5: 88066fa804b8a3a3c38fc214ca38aa98.dir
-      size: 7070908
-      nfiles: 12606
+      md5: bd00ac123a09ad1784c07863e6e573bb.dir
+      size: 88974769
+      nfiles: 2807
     - path: data/teacher_splitted
-      md5: ba206671a1fa4a7d7830fbb9d805478e.dir
-      size: 16480205
-      nfiles: 29394
+      md5: cfa3060d860581dfc4b006df2b37cf92.dir
+      size: 205297725
+      nfiles: 6540
   train_teacher_model@Dishes:
     cmd: python src/stages/train.py --teacher Dishes
     deps:
@@ -181,26 +181,26 @@ stages:
       size: 2685
     outs:
     - path: models/teacher/Benchmark/model.pt
-      md5: 9f9e60b9308a1c9be5b088ce00b41c20
-      size: 51193145
+      md5: 3b7a4b05713d620594decc9abeab67df
+      size: 54727797
     - path: reports/dvclive_Benchmark.json
-      md5: b516d3038a27c9a30c7999e4a5f90dd5
-      size: 128
+      md5: f75e1842b12f428d5e0c51cf0a0e9e40
+      size: 127
     - path: reports/dvclive_Benchmark/scalars
-      md5: cc74c8704c5f64953b1e048ebb11e253.dir
-      size: 4870
+      md5: 3ef76cbd30449d29b6266114796486dd.dir
+      size: 4925
       nfiles: 3
   visualise@Benchmark:
     cmd: python src/stages/visualise_embeddings.py --params=params.yaml --teacher
       Benchmark
     deps:
     - path: models/teacher/Benchmark/model.pt
-      md5: 9f9e60b9308a1c9be5b088ce00b41c20
-      size: 51193145
+      md5: 3b7a4b05713d620594decc9abeab67df
+      size: 54727797
     - path: src/stages/visualise_embeddings.py
       md5: b6489093c57c88f2ab68689193b1224a
       size: 2695
     outs:
     - path: reports/plots/Benchmark/embedding.png
-      md5: 68d988028bfa3f062a4343a746e51560
-      size: 114341
+      md5: 3d7f6ad712a49e0b390ba59e8ea18dfb
+      size: 148814

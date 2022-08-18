@@ -23,6 +23,7 @@ class EmbeddingNet(nn.Module):
         transforms.ToTensor(),
         transforms.Resize(256),
         transforms.CenterCrop(224),
+        transforms.Normalize([0.5619, 0.5130, 0.4781],[0.2907, 0.2843, 0.2969])
        ])
 
         self.embedding_size = embedding_size
