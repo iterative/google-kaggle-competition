@@ -13,7 +13,7 @@ teacher_models:
 train:
   model_path: "models"
   model_file: "model.pt"
-  batch_size: 64
+  batch_size: 512
   margin: 100
   lr: 0.001
   epochs: 50

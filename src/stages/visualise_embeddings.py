@@ -54,7 +54,7 @@ def visualise(cli_params):
     train_embeddings_tl, train_labels_tl = extract_embeddings(data_loader, model, params["train"]["embedding_size"])
     dim_reduction = umap.UMAP()
     train_embeddings_low_dim = dim_reduction.fit_transform(train_embeddings_tl)
-    output_path = Path(params["reports"]["root"]) / Path(params["plots"]["root"]) / cli_params.teacher 
+    output_path = Path(params["reports"]["root"]) / Path(params["reports"]["plots"]) / cli_params.teacher 
     output_path.mkdir(parents=True, exist_ok=True)
     plot_embeddings(train_embeddings_low_dim, train_labels_tl, classes=val_dataset.classes, save_path=output_path / "embedding.png")
 

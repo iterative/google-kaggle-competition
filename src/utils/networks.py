@@ -3,7 +3,7 @@ import torch.nn.functional as F
 from transformers import AutoFeatureExtractor, ResNetModel
 from torchvision.models.resnet import resnet50
 from torchvision.models import resnet50, ResNet50_Weights
-from torchvision.models.efficientnet import efficientnet_b3
+from torchvision.models.efficientnet import efficientnet_b3, EfficientNet_B3_Weights
 import torch
 from torchvision import transforms
 
@@ -11,7 +11,8 @@ from torchvision import transforms
 class EmbeddingNet(nn.Module):
     def __init__(self, embedding_size=64):
         super(EmbeddingNet, self).__init__()
-        self.pretrained_model = efficientnet_b3()
+        self.pretrained_model = efficientnet_b3(weights=EfficientNet_B3_Weights.DEFAULT)
+
 
         modules=list(self.pretrained_model.children())[:-1]
         self.embedding=nn.Sequential(*modules)
@@ -25,8 +26,9 @@ class EmbeddingNet(nn.Module):
        ])
 
         self.embedding_size = embedding_size
-        self.fc = nn.Sequential(nn.Linear(1536, 256),
+        self.fc = nn.Sequential(nn.Linear(1536, 712),
                                 nn.PReLU(),
+                                nn.Linear(712, 256),
                                 nn.PReLU(),
                                 nn.Linear(256, self.embedding_size)
                                 )
