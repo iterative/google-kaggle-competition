@@ -3,7 +3,7 @@ from PIL import Image
 
 from torch.utils.data import Dataset
 from torch.utils.data.sampler import BatchSampler
-from torchvision.transforms.functional import pil_to_tensor
+
 
 class SiameseMNIST(Dataset):
     """
