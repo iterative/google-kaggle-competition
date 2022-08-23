@@ -6,16 +6,17 @@ data:
   train_data: teacher_splitted
 
 teacher_models:
-   - Benchmark
-  # - Dishes
+  #  - Benchmark
+  - Dishes
   # - Landmarks
   # - MNIST_exp
 train:
   model_path: "models"
   model_file: "model.pt"
   batch_size: 512
-  margin: 100
+  margin: 50
   lr: 0.001
+  scheduler_step_size: 14
   epochs: 50
   embedding_size: 64
 

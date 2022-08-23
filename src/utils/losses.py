@@ -123,35 +123,27 @@ def get_triplet_mask(labels):
 
 
 
-def batch_triplet_loss(embeddings, labels, hparams):
+def batch_triplet_loss(embeddings, labels, margin, hardest_only=True, test=False):
     pairwise_dist = torch.cdist(embeddings, embeddings)
 
-    if hparams == 'batch hard':
-        ##  for each anchor, select the hardest positive and the hardest negative among the batch
-        ## get the hardest positive
+    if hardest_only:
         mask_anchor_positive = get_anchor_positive_mask(labels).float()
-        anchor_positive_dist = pairwise_dist * mask_anchor_positive
+        anchor_positive_dist = pairwise_dist * mask_anchor_positive.cuda()
         hardest_positive_dist, _ = anchor_positive_dist.max(1, keepdim=True)
 
-        ## get the hardest negative
         mask_anchor_negative = get_anchor_negative_mask(labels).float()
-        anchor_negative_dist = pairwise_dist + 999. * (1.0 - mask_anchor_negative)
+        anchor_negative_dist = pairwise_dist + 999. * (1.0 - mask_anchor_negative.cuda())
         hardest_negative_dist, _ = anchor_negative_dist.min(1, keepdim=True)
 
-        triplet_loss = hardest_positive_dist - hardest_negative_dist + 1.0  ## (batch_size, 1)
-
-    elif hparams["mode"] == 'batch all':
-        ## select 1) all the valid triplets, and 2) average the loss on the hard and semi-hard triplets
+        triplet_loss = hardest_positive_dist - hardest_negative_dist + margin  ## (batch_size, 1)
+    else:
         anchor_positive_dist = pairwise_dist.unsqueeze(2)  ## (batch_size, batch_size, 1)
         anchor_negative_dist = pairwise_dist.unsqueeze(1)  ## (batch_size, 1, batch_size)
-        triplet_loss = anchor_positive_dist - anchor_negative_dist + hparams[
-            "margin"]  ## broadcasting, all compibations of (a, p, n)
+        triplet_loss = anchor_positive_dist - anchor_negative_dist + margin ## broadcasting, all compibations of (a, p, n)
         ## 1) select valid triplets
         valid_mask = get_triplet_mask(labels).float()
-        triplet_loss = valid_mask * triplet_loss  ## (batch_size, batch_size, batch_size)
-    else:
-        raise TypeError("invalid mode")
-
+        triplet_loss = valid_mask.cuda() * triplet_loss
     # remove easy triplets
+    # if not test
     triplet_loss[triplet_loss < 0] = 0
     return torch.mean(triplet_loss)

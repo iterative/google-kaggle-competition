@@ -38,9 +38,9 @@ stages:
     cmd: python src/stages/split_dataset.py --params=params.yaml
     deps:
     - path: data/teacher_data
-      md5: 4764922b319f7a71e2147e0ad5e37b2e.dir
-      size: 616227278
-      nfiles: 72170
+      md5: 4d4a3ccbfe1529f2b46af216cd00eae0.dir
+      size: 609937510
+      nfiles: 71927
     - path: src/stages/split_dataset.py
       md5: 30fe0e5c5c66fb3bd598f6d5bf61ded5
       size: 2016
@@ -63,13 +63,13 @@ stages:
             test_ratio: 0.3
     outs:
     - path: data/index_search_splitted
-      md5: bd00ac123a09ad1784c07863e6e573bb.dir
-      size: 88974769
-      nfiles: 2807
+      md5: 68716079e18cbe2389c7f04a6bb843b3.dir
+      size: 68241849
+      nfiles: 2700
     - path: data/teacher_splitted
-      md5: cfa3060d860581dfc4b006df2b37cf92.dir
-      size: 205297725
-      nfiles: 6540
+      md5: bf382f58e31b76b7effe32b2e11d843d.dir
+      size: 159616668
+      nfiles: 6300
   train_teacher_model@Dishes:
     cmd: python src/stages/train.py --teacher Dishes
     deps:
@@ -78,19 +78,19 @@ stages:
       size: 159616668
       nfiles: 6300
     - path: src/stages/train.py
-      md5: c8bab7627a6fe37f871957cdd826313b
-      size: 2961
+      md5: 9a5414c2c4a90fa037c370eb8823cc08
+      size: 5281
     outs:
-    - path: dvclive_Dishes.json
-      md5: d901153a6ba2fd438bdd8279ce1499bc
-      size: 126
-    - path: dvclive_Dishes/scalars
-      md5: d6919a6022ead89df1c51b1d58638454.dir
-      size: 184
-      nfiles: 3
     - path: models/teacher/Dishes/model.pt
-      md5: 2ccdd02fe1b46272b718bb8e89c546c8
-      size: 184593409
+      md5: 3d09a6fc02fd15cfc96d8fd1b2befc84
+      size: 54727541
+    - path: reports/dvclive_Dishes.json
+      md5: 9ad0a907e6ee80fcae0071545a0b9137
+      size: 131
+    - path: reports/dvclive_Dishes/scalars
+      md5: 203f93ffdb13d71df25453e6ef1d824e.dir
+      size: 4937
+      nfiles: 3
   unzip_dataset@Landmarks:
     cmd: python src/stages/unzip_dataset.py --teacher Landmarks
     deps:
@@ -204,3 +204,17 @@ stages:
     - path: reports/plots/Benchmark/embedding.png
       md5: 3d7f6ad712a49e0b390ba59e8ea18dfb
       size: 148814
+  visualise@Dishes:
+    cmd: python src/stages/visualise_embeddings.py --params=params.yaml --teacher
+      Dishes
+    deps:
+    - path: models/teacher/Dishes/model.pt
+      md5: 3d09a6fc02fd15cfc96d8fd1b2befc84
+      size: 54727541
+    - path: src/stages/visualise_embeddings.py
+      md5: 6f79d378faf3057666c990f859c15a2e
+      size: 2681
+    outs:
+    - path: reports/plots/Dishes/embedding.png
+      md5: 0d52acf0fbb5b8a733d7bbd3800d1f62
+      size: 226969
