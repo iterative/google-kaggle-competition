@@ -1,67 +1,32 @@
 stages:
   unzip_dataset:
-    foreach: ${teacher_models}
-    do:
-      cmd: python src/stages/unzip_dataset.py --teacher ${item}
+      cmd: python src/stages/unzip_dataset.py 
       outs:
-      - data/teacher_data/${item}:
+      - data/${data.train}:
           cache: false
       deps:
-      - data/teacher_data/${item}.zip
+      - data/${data.train}.zip
       - src/stages/unzip_dataset.py
 
-  train_teacher_model:
-    foreach: ${teacher_models}
-    do:
-      cmd: python src/stages/train.py --teacher ${item}
+  train_model:
+      cmd: python src/stages/train.py 
       deps:
-      # - data/teacher_data/${item}
-      - data/teacher_splitted/${item}
+      - data/${data.train}
       - src/stages/train.py
       outs:
-      - ${train.model_path}/teacher/${item}/model.pt
+      - ${train.model_path}/${train.model_file}
       metrics:
-      - ${reports.root}/dvclive_${item}.json:
+      - ${reports.root}/dvclive.json:
           cache: false
       plots:
-      - ${reports.root}/dvclive_${item}/scalars:
+      - ${reports.root}/dvclive/scalars:
           cache: false
-
-
-  split_dataset:
-    cmd: python src/stages/split_dataset.py --params=params.yaml
-    outs:
-    - ${data.root}/${split_dataset.index_search.output_folder}:
-        cache: false
-    - ${data.root}/${split_dataset.teacher_models.output_folder}:
-        cache: false
-    deps:
-      - data/teacher_data
-      - src/stages/split_dataset.py
-    params:
-      - data
-      - split_dataset
-  
 
   visualise:
-    foreach: ${teacher_models}
-    do:
-      cmd: python src/stages/visualise_embeddings.py --params=params.yaml --teacher ${item}
-      deps: 
-        - ${train.model_path}/teacher/${item}/model.pt
-        - src/stages/visualise_embeddings.py
+      cmd: python src/stages/visualise_embeddings.py
+      deps:
+      - ${train.model_path}/${train.model_file}
+      - src/stages/visualise_embeddings.py
       plots:
-       - ${reports.root}/${reports.plots}/${item}/embedding.png:
+      - ${reports.root}/${reports.plots}/embedding.png:
           cache: false
-
-#  preprocess_dataset:
-#    cmd: python src/stages/preprocess_dataset.py --params=params.yaml
-#    deps:
-#      - src/stages/preprocess_dataset.py
-#    params:
-#      - data
-#      - preprocess_dataset
-#    outs:
-#      - ${data.data_root}/${preprocess_dataset.output_folder}:
-#          cache: false 
-# Split to test and train

@@ -1,12 +1,11 @@
 data:
-  archive_baseline: archive.zip
   root: data
   dataset_baseline: images_128
   teacher_data: teacher_data
-  train_data: teacher_splitted
+  train: baseline_split
 
 teacher_models:
-   - Benchmark
+   - Baseline
   # - Dishes
   # - Landmarks
   # - MNIST_exp
@@ -14,9 +13,9 @@ train:
   model_path: "models"
   model_file: "model.pt"
   batch_size: 512
-  margin: 100
+  margin: 5
   lr: 0.001
-  epochs: 50
+  epochs: 1
   embedding_size: 64
 
 reports:

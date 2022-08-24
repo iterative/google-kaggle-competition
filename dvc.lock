@@ -1,23 +1,17 @@
 schema: '2.0'
 stages:
   unzip_dataset:
-    cmd: python src/stages/unzip_dataset.py --params=params.yaml
+    cmd: python src/stages/unzip_dataset.py
     deps:
-    - path: data/archive.zip
-      md5: 28eaead3ef745dcbf58ddee356f9f72a
-      size: 293174706
+    - path: data/baseline_split.zip
+      md5: a10dceec1b22b1b3f4bc08e549ddf978
+      size: 292752584
     - path: src/stages/unzip_dataset.py
-      md5: 8069ad82cacfc20314b1f49f8fe3c305
-      size: 599
-    params:
-      params.yaml:
-        unzip_dataset:
-          archive_baseline: archive.zip
-          data_root: data
-          dataset_baseline: images_128
+      md5: 13e131dd90084e23ad49eec6031b798b
+      size: 1028
     outs:
-    - path: data/images_128
-      md5: 2d35f1eb05bc40c5bb7ec7e7d12cc44f.dir
+    - path: data/baseline_split
+      md5: 22df0db38f0b7cf7486499b69e391c25.dir
       size: 294272494
       nfiles: 9347
   unzip_dataset@Dishes:
@@ -34,42 +28,6 @@ stages:
       md5: b23cf150b12c80be59b94ca9a48ebc24.dir
       size: 227858517
       nfiles: 9000
-  split_dataset:
-    cmd: python src/stages/split_dataset.py --params=params.yaml
-    deps:
-    - path: data/teacher_data
-      md5: 4764922b319f7a71e2147e0ad5e37b2e.dir
-      size: 616227278
-      nfiles: 72170
-    - path: src/stages/split_dataset.py
-      md5: 30fe0e5c5c66fb3bd598f6d5bf61ded5
-      size: 2016
-    params:
-      params.yaml:
-        data:
-          archive_baseline: archive.zip
-          root: data
-          dataset_baseline: images_128
-          teacher_data: teacher_data
-          train_data: teacher_splitted
-        split_dataset:
-          index_search:
-            output_folder: index_search_splitted
-            index_search_ratio: 0.3
-            seed: 1337
-          teacher_models:
-            output_folder: teacher_splitted
-            seed: 1337
-            test_ratio: 0.3
-    outs:
-    - path: data/index_search_splitted
-      md5: bd00ac123a09ad1784c07863e6e573bb.dir
-      size: 88974769
-      nfiles: 2807
-    - path: data/teacher_splitted
-      md5: cfa3060d860581dfc4b006df2b37cf92.dir
-      size: 205297725
-      nfiles: 6540
   train_teacher_model@Dishes:
     cmd: python src/stages/train.py --teacher Dishes
     deps:
@@ -177,30 +135,64 @@ stages:
       size: 205297725
       nfiles: 6540
     - path: src/stages/train.py
-      md5: fd64cc779ba38e4866da3cf72ba4af15
-      size: 2685
+      md5: 67e966e2c1be026c7fc48a522e8727e8
+      size: 2719
     outs:
     - path: models/teacher/Benchmark/model.pt
-      md5: 3b7a4b05713d620594decc9abeab67df
+      md5: 7033b95edf2f03d50a82aaa568f9f187
       size: 54727797
     - path: reports/dvclive_Benchmark.json
-      md5: f75e1842b12f428d5e0c51cf0a0e9e40
-      size: 127
+      md5: 84af4c71427751c373a64a5336f15c42
+      size: 130
     - path: reports/dvclive_Benchmark/scalars
-      md5: 3ef76cbd30449d29b6266114796486dd.dir
-      size: 4925
+      md5: 451769ce04835de4ec7164adba6f3ea9.dir
+      size: 4927
       nfiles: 3
   visualise@Benchmark:
     cmd: python src/stages/visualise_embeddings.py --params=params.yaml --teacher
       Benchmark
     deps:
     - path: models/teacher/Benchmark/model.pt
-      md5: 3b7a4b05713d620594decc9abeab67df
+      md5: 7033b95edf2f03d50a82aaa568f9f187
       size: 54727797
     - path: src/stages/visualise_embeddings.py
-      md5: b6489093c57c88f2ab68689193b1224a
-      size: 2695
+      md5: 1f2393a399028913172c4a11b7ff3459
+      size: 2697
     outs:
     - path: reports/plots/Benchmark/embedding.png
-      md5: 3d7f6ad712a49e0b390ba59e8ea18dfb
-      size: 148814
+      md5: 94a99bb857a30ef0e0890233b98ac3ca
+      size: 162489
+  train_model:
+    cmd: python src/stages/train.py
+    deps:
+    - path: data/baseline_split
+      md5: 22df0db38f0b7cf7486499b69e391c25.dir
+      size: 294272494
+      nfiles: 9347
+    - path: src/stages/train.py
+      md5: a14fb1c45839c3333f7698ca93854ce3
+      size: 2482
+    outs:
+    - path: models/model.pt
+      md5: f9d9ecf88363603340688f8c5b25bc0d
+      size: 54902368
+    - path: reports/dvclive.json
+      md5: d8259d29b7476ef4391153328ec65187
+      size: 128
+    - path: reports/dvclive/scalars
+      md5: be63aea04e6b5190dc35408977535e07.dir
+      size: 186
+      nfiles: 3
+  visualise:
+    cmd: python src/stages/visualise_embeddings.py
+    deps:
+    - path: models/model.pt
+      md5: f9d9ecf88363603340688f8c5b25bc0d
+      size: 54902368
+    - path: src/stages/visualise_embeddings.py
+      md5: 832443d17834d8f6a0c1051fda265219
+      size: 2553
+    outs:
+    - path: reports/plots/embedding.png
+      md5: dca358f9bc8ef672caf4099bb75d182a
+      size: 231725
