@@ -2,3 +2,7 @@
 /archive.zip
 /teacher_splitted
 /index_search_splitted
+/teacher_data/MNIST*
+/baseline.zip
+/baseline_split.zip
+/baseline_split

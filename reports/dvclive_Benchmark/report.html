@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="refresh" content="5">
+    <title>DVC Plot</title>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.2.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.18.2"></script>
+    
+    <style>
+        table {
+            border-spacing: 15px;
+        }
+    </style>
+</head>
+<body>
+    
+        <div id="dvclive_Benchmark_json" style="text-align: center; padding: 10x">
+            <p>dvclive_Benchmark_json</p>
+            <div style="display: flex;justify-content: center;">
+                <table>
+<thead>
+<tr><th style="text-align: right;">  step</th><th style="text-align: right;">  training_loss</th><th style="text-align: right;">  validation_loss</th><th style="text-align: right;">  learning_rate</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: right;">    49</td><td style="text-align: right;">         7.8886</td><td style="text-align: right;">          11.9704</td><td style="text-align: right;">          1e-05</td></tr>
+</tbody>
+</table>
+            </div>
+        </div>
+
+    <div id = "static_validation_loss">
+        <script type = "text/javascript">
+            var spec = {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {
+        "values": [
+    {
+        "rev": "workspace",
+        "step": "0",
+        "timestamp": "1660825464502",
+        "validation_loss": "95.63451194763184"
+    },
+    {
+        "rev": "workspace",
+        "step": "1",
+        "timestamp": "1660825492888",
+        "validation_loss": "63.6923828125"
+    },
+    {
+        "rev": "workspace",
+        "step": "2",
+        "timestamp": "1660825521948",
+        "validation_loss": "39.97822284698486"
+    },
+    {
+        "rev": "workspace",
+        "step": "3",
+        "timestamp": "1660825549723",
+        "validation_loss": "34.32860326766968"
+    },
+    {
+        "rev": "workspace",
+        "step": "4",
+        "timestamp": "1660825578469",
+        "validation_loss": "30.794002056121826"
+    },
+    {
+        "rev": "workspace",
+        "step": "5",
+        "timestamp": "1660825606258",
+        "validation_loss": "29.951070308685303"
+    },
+    {
+        "rev": "workspace",
+        "step": "6",
+        "timestamp": "1660825634423",
+        "validation_loss": "28.410077571868896"
+    },
+    {
+        "rev": "workspace",
+        "step": "7",
+        "timestamp": "1660825661722",
+        "validation_loss": "27.441036224365234"
+    },
+    {
+        "rev": "workspace",
+        "step": "8",
+        "timestamp": "1660825689447",
+        "validation_loss": "25.55935764312744"
+    },
+    {
+        "rev": "workspace",
+        "step": "9",
+        "timestamp": "1660825716967",
+        "validation_loss": "23.857940673828125"
+    },
+    {
+        "rev": "workspace",
+        "step": "10",
+        "timestamp": "1660825744441",
+        "validation_loss": "22.27458882331848"
+    },
+    {
+        "rev": "workspace",
+        "step": "11",
+        "timestamp": "1660825772225",
+        "validation_loss": "21.38926672935486"
+    },
+    {
+        "rev": "workspace",
+        "step": "12",
+        "timestamp": "1660825798895",
+        "validation_loss": "20.21542739868164"
+    },
+    {
+        "rev": "workspace",
+        "step": "13",
+        "timestamp": "1660825827057",
+        "validation_loss": "18.929887533187866"
+    },
+    {
+        "rev": "workspace",
+        "step": "14",
+        "timestamp": "1660825854441",
+        "validation_loss": "18.274760723114014"
+    },
+    {
+        "rev": "workspace",
+        "step": "15",
+        "timestamp": "1660825882100",
+        "validation_loss": "17.851908683776855"
+    },
+    {
+        "rev": "workspace",
+        "step": "16",
+        "timestamp": "1660825910615",
+        "validation_loss": "16.361164331436157"
+    },
+    {
+        "rev": "workspace",
+        "step": "17",
+        "timestamp": "1660825937525",
+        "validation_loss": "15.174928188323975"
+    },
+    {
+        "rev": "workspace",
+        "step": "18",
+        "timestamp": "1660825965390",
+        "validation_loss": "14.393302202224731"
+    },
+    {
+        "rev": "workspace",
+        "step": "19",
+        "timestamp": "1660825992416",
+        "validation_loss": "13.838542938232422"
+    },
+    {
+        "rev": "workspace",
+        "step": "20",
+        "timestamp": "1660826020609",
+        "validation_loss": "13.907183289527893"
+    },
+    {
+        "rev": "workspace",
+        "step": "21",
+        "timestamp": "1660826048531",
+        "validation_loss": "13.243293523788452"
+    },
+    {
+        "rev": "workspace",
+        "step": "22",
+        "timestamp": "1660826075251",
+        "validation_loss": "13.26624870300293"
+    },
+    {
+        "rev": "workspace",
+        "step": "23",
+        "timestamp": "1660826103180",
+        "validation_loss": "13.137203574180603"
+    },
+    {
+        "rev": "workspace",
+        "step": "24",
+        "timestamp": "1660826130670",
+        "validation_loss": "12.997119545936584"
+    },
+    {
+        "rev": "workspace",
+        "step": "25",
+        "timestamp": "1660826157820",
+        "validation_loss": "12.962333917617798"
+    },
+    {
+        "rev": "workspace",
+        "step": "26",
+        "timestamp": "1660826184293",
+        "validation_loss": "12.820149421691895"
+    },
+    {
+        "rev": "workspace",
+        "step": "27",
+        "timestamp": "1660826212354",
+        "validation_loss": "12.674609661102295"
+    },
+    {
+        "rev": "workspace",
+        "step": "28",
+        "timestamp": "1660826238874",
+        "validation_loss": "12.607606530189514"
+    },
+    {
+        "rev": "workspace",
+        "step": "29",
+        "timestamp": "1660826267318",
+        "validation_loss": "12.61460542678833"
+    },
+    {
+        "rev": "workspace",
+        "step": "30",
+        "timestamp": "1660826295167",
+        "validation_loss": "12.543360233306885"
+    },
+    {
+        "rev": "workspace",
+        "step": "31",
+        "timestamp": "1660826321552",
+        "validation_loss": "12.556369185447693"
+    },
+    {
+        "rev": "workspace",
+        "step": "32",
+        "timestamp": "1660826348017",
+        "validation_loss": "12.528923511505127"
+    },
+    {
+        "rev": "workspace",
+        "step": "33",
+        "timestamp": "1660826376089",
+        "validation_loss": "12.432721138000488"
+    },
+    {
+        "rev": "workspace",
+        "step": "34",
+        "timestamp": "1660826403567",
+        "validation_loss": "12.430249691009521"
+    },
+    {
+        "rev": "workspace",
+        "step": "35",
+        "timestamp": "1660826430518",
+        "validation_loss": "12.48197877407074"
+    },
+    {
+        "rev": "workspace",
+        "step": "36",
+        "timestamp": "1660826458708",
+        "validation_loss": "12.352461814880371"
+    },
+    {
+        "rev": "workspace",
+        "step": "37",
+        "timestamp": "1660826486372",
+        "validation_loss": "12.267765760421753"
+    },
+    {
+        "rev": "workspace",
+        "step": "38",
+        "timestamp": "1660826514618",
+        "validation_loss": "12.20725703239441"
+    },
+    {
+        "rev": "workspace",
+        "step": "39",
+        "timestamp": "1660826543398",
+        "validation_loss": "12.158252239227295"
+    },
+    {
+        "rev": "workspace",
+        "step": "40",
+        "timestamp": "1660826570585",
+        "validation_loss": "12.153435707092285"
+    },
+    {
+        "rev": "workspace",
+        "step": "41",
+        "timestamp": "1660826598222",
+        "validation_loss": "11.987272262573242"
+    },
+    {
+        "rev": "workspace",
+        "step": "42",
+        "timestamp": "1660826626025",
+        "validation_loss": "12.056548118591309"
+    },
+    {
+        "rev": "workspace",
+        "step": "43",
+        "timestamp": "1660826654335",
+        "validation_loss": "12.042840480804443"
+    },
+    {
+        "rev": "workspace",
+        "step": "44",
+        "timestamp": "1660826681838",
+        "validation_loss": "12.029890298843384"
+    },
+    {
+        "rev": "workspace",
+        "step": "45",
+        "timestamp": "1660826709838",
+        "validation_loss": "11.930651187896729"
+    },
+    {
+        "rev": "workspace",
+        "step": "46",
+        "timestamp": "1660826737769",
+        "validation_loss": "11.892423272132874"
+    },
+    {
+        "rev": "workspace",
+        "step": "47",
+        "timestamp": "1660826767143",
+        "validation_loss": "11.856857061386108"
+    },
+    {
+        "rev": "workspace",
+        "step": "48",
+        "timestamp": "1660826796370",
+        "validation_loss": "11.858408093452454"
+    },
+    {
+        "rev": "workspace",
+        "step": "49",
+        "timestamp": "1660826824501",
+        "validation_loss": "11.9703950881958"
+    }
+]
+    },
+    "title": "",
+    "width": 300,
+    "height": 300,
+    "layer": [
+        {
+            "encoding": {
+                "x": {
+                    "field": "step",
+                    "type": "quantitative",
+                    "title": "step"
+                },
+                "y": {
+                    "field": "validation_loss",
+                    "type": "quantitative",
+                    "title": "validation_loss",
+                    "scale": {
+                        "zero": false
+                    }
+                },
+                "color": {
+                    "field": "rev",
+                    "type": "nominal"
+                }
+            },
+            "layer": [
+                {
+                    "mark": "line"
+                },
+                {
+                    "selection": {
+                        "label": {
+                            "type": "single",
+                            "nearest": true,
+                            "on": "mouseover",
+                            "encodings": [
+                                "x"
+                            ],
+                            "empty": "none",
+                            "clear": "mouseout"
+                        }
+                    },
+                    "mark": "point",
+                    "encoding": {
+                        "opacity": {
+                            "condition": {
+                                "selection": "label",
+                                "value": 1
+                            },
+                            "value": 0
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "transform": [
+                {
+                    "filter": {
+                        "selection": "label"
+                    }
+                }
+            ],
+            "layer": [
+                {
+                    "mark": {
+                        "type": "rule",
+                        "color": "gray"
+                    },
+                    "encoding": {
+                        "x": {
+                            "field": "step",
+                            "type": "quantitative"
+                        }
+                    }
+                },
+                {
+                    "encoding": {
+                        "text": {
+                            "type": "quantitative",
+                            "field": "validation_loss"
+                        },
+                        "x": {
+                            "field": "step",
+                            "type": "quantitative"
+                        },
+                        "y": {
+                            "field": "validation_loss",
+                            "type": "quantitative"
+                        }
+                    },
+                    "layer": [
+                        {
+                            "mark": {
+                                "type": "text",
+                                "align": "left",
+                                "dx": 5,
+                                "dy": -5
+                            },
+                            "encoding": {
+                                "color": {
+                                    "type": "nominal",
+                                    "field": "rev"
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+;
+            vegaEmbed('#static_validation_loss', spec);
+        </script>
+    </div>
+    
+
+    <div id = "static_learning_rate">
+        <script type = "text/javascript">
+            var spec = {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {
+        "values": [
+    {
+        "learning_rate": "0.001",
+        "rev": "workspace",
+        "step": "0",
+        "timestamp": "1660825464503"
+    },
+    {
+        "learning_rate": "0.001",
+        "rev": "workspace",
+        "step": "1",
+        "timestamp": "1660825492889"
+    },
+    {
+        "learning_rate": "0.001",
+        "rev": "workspace",
+        "step": "2",
+        "timestamp": "1660825521949"
+    },
+    {
+        "learning_rate": "0.001",
+        "rev": "workspace",
+        "step": "3",
+        "timestamp": "1660825549724"
+    },
+    {
+        "learning_rate": "0.001",
+        "rev": "workspace",
+        "step": "4",
+        "timestamp": "1660825578470"
+    },
+    {
+        "learning_rate": "0.001",
+        "rev": "workspace",
+        "step": "5",
+        "timestamp": "1660825606259"
+    },
+    {
+        "learning_rate": "0.001",
+        "rev": "workspace",
+        "step": "6",
+        "timestamp": "1660825634423"
+    },
+    {
+        "learning_rate": "0.001",
+        "rev": "workspace",
+        "step": "7",
+        "timestamp": "1660825661723"
+    },
+    {
+        "learning_rate": "0.001",
+        "rev": "workspace",
+        "step": "8",
+        "timestamp": "1660825689448"
+    },
+    {
+        "learning_rate": "0.001",
+        "rev": "workspace",
+        "step": "9",
+        "timestamp": "1660825716968"
+    },
+    {
+        "learning_rate": "0.001",
+        "rev": "workspace",
+        "step": "10",
+        "timestamp": "1660825744443"
+    },
+    {
+        "learning_rate": "0.001",
+        "rev": "workspace",
+        "step": "11",
+        "timestamp": "1660825772226"
+    },
+    {
+        "learning_rate": "0.001",
+        "rev": "workspace",
+        "step": "12",
+        "timestamp": "1660825798896"
+    },
+    {
+        "learning_rate": "0.001",
+        "rev": "workspace",
+        "step": "13",
+        "timestamp": "1660825827058"
+    },
+    {
+        "learning_rate": "0.001",
+        "rev": "workspace",
+        "step": "14",
+        "timestamp": "1660825854442"
+    },
+    {
+        "learning_rate": "0.001",
+        "rev": "workspace",
+        "step": "15",
+        "timestamp": "1660825882101"
+    },
+    {
+        "learning_rate": "0.001",
+        "rev": "workspace",
+        "step": "16",
+        "timestamp": "1660825910616"
+    },
+    {
+        "learning_rate": "0.001",
+        "rev": "workspace",
+        "step": "17",
+        "timestamp": "1660825937526"
+    },
+    {
+        "learning_rate": "0.001",
+        "rev": "workspace",
+        "step": "18",
+        "timestamp": "1660825965391"
+    },
+    {
+        "learning_rate": "0.001",
+        "rev": "workspace",
+        "step": "19",
+        "timestamp": "1660825992417"
+    },
+    {
+        "learning_rate": "0.001",
+        "rev": "workspace",
+        "step": "20",
+        "timestamp": "1660826020610"
+    },
+    {
+        "learning_rate": "0.0001",
+        "rev": "workspace",
+        "step": "21",
+        "timestamp": "1660826048532"
+    },
+    {
+        "learning_rate": "0.0001",
+        "rev": "workspace",
+        "step": "22",
+        "timestamp": "1660826075252"
+    },
+    {
+        "learning_rate": "0.0001",
+        "rev": "workspace",
+        "step": "23",
+        "timestamp": "1660826103181"
+    },
+    {
+        "learning_rate": "0.0001",
+        "rev": "workspace",
+        "step": "24",
+        "timestamp": "1660826130671"
+    },
+    {
+        "learning_rate": "0.0001",
+        "rev": "workspace",
+        "step": "25",
+        "timestamp": "1660826157821"
+    },
+    {
+        "learning_rate": "0.0001",
+        "rev": "workspace",
+        "step": "26",
+        "timestamp": "1660826184294"
+    },
+    {
+        "learning_rate": "0.0001",
+        "rev": "workspace",
+        "step": "27",
+        "timestamp": "1660826212355"
+    },
+    {
+        "learning_rate": "0.0001",
+        "rev": "workspace",
+        "step": "28",
+        "timestamp": "1660826238875"
+    },
+    {
+        "learning_rate": "0.0001",
+        "rev": "workspace",
+        "step": "29",
+        "timestamp": "1660826267319"
+    },
+    {
+        "learning_rate": "0.0001",
+        "rev": "workspace",
+        "step": "30",
+        "timestamp": "1660826295168"
+    },
+    {
+        "learning_rate": "0.0001",
+        "rev": "workspace",
+        "step": "31",
+        "timestamp": "1660826321553"
+    },
+    {
+        "learning_rate": "0.0001",
+        "rev": "workspace",
+        "step": "32",
+        "timestamp": "1660826348018"
+    },
+    {
+        "learning_rate": "0.0001",
+        "rev": "workspace",
+        "step": "33",
+        "timestamp": "1660826376090"
+    },
+    {
+        "learning_rate": "0.0001",
+        "rev": "workspace",
+        "step": "34",
+        "timestamp": "1660826403568"
+    },
+    {
+        "learning_rate": "0.0001",
+        "rev": "workspace",
+        "step": "35",
+        "timestamp": "1660826430519"
+    },
+    {
+        "learning_rate": "0.0001",
+        "rev": "workspace",
+        "step": "36",
+        "timestamp": "1660826458709"
+    },
+    {
+        "learning_rate": "0.0001",
+        "rev": "workspace",
+        "step": "37",
+        "timestamp": "1660826486373"
+    },
+    {
+        "learning_rate": "0.0001",
+        "rev": "workspace",
+        "step": "38",
+        "timestamp": "1660826514619"
+    },
+    {
+        "learning_rate": "0.0001",
+        "rev": "workspace",
+        "step": "39",
+        "timestamp": "1660826543399"
+    },
+    {
+        "learning_rate": "0.0001",
+        "rev": "workspace",
+        "step": "40",
+        "timestamp": "1660826570586"
+    },
+    {
+        "learning_rate": "0.0001",
+        "rev": "workspace",
+        "step": "41",
+        "timestamp": "1660826598223"
+    },
+    {
+        "learning_rate": "0.0001",
+        "rev": "workspace",
+        "step": "42",
+        "timestamp": "1660826626026"
+    },
+    {
+        "learning_rate": "1e-05",
+        "rev": "workspace",
+        "step": "43",
+        "timestamp": "1660826654336"
+    },
+    {
+        "learning_rate": "1e-05",
+        "rev": "workspace",
+        "step": "44",
+        "timestamp": "1660826681839"
+    },
+    {
+        "learning_rate": "1e-05",
+        "rev": "workspace",
+        "step": "45",
+        "timestamp": "1660826709839"
+    },
+    {
+        "learning_rate": "1e-05",
+        "rev": "workspace",
+        "step": "46",
+        "timestamp": "1660826737770"
+    },
+    {
+        "learning_rate": "1e-05",
+        "rev": "workspace",
+        "step": "47",
+        "timestamp": "1660826767144"
+    },
+    {
+        "learning_rate": "1e-05",
+        "rev": "workspace",
+        "step": "48",
+        "timestamp": "1660826796371"
+    },
+    {
+        "learning_rate": "1e-05",
+        "rev": "workspace",
+        "step": "49",
+        "timestamp": "1660826824503"
+    }
+]
+    },
+    "title": "",
+    "width": 300,
+    "height": 300,
+    "layer": [
+        {
+            "encoding": {
+                "x": {
+                    "field": "step",
+                    "type": "quantitative",
+                    "title": "step"
+                },
+                "y": {
+                    "field": "learning_rate",
+                    "type": "quantitative",
+                    "title": "learning_rate",
+                    "scale": {
+                        "zero": false
+                    }
+                },
+                "color": {
+                    "field": "rev",
+                    "type": "nominal"
+                }
+            },
+            "layer": [
+                {
+                    "mark": "line"
+                },
+                {
+                    "selection": {
+                        "label": {
+                            "type": "single",
+                            "nearest": true,
+                            "on": "mouseover",
+                            "encodings": [
+                                "x"
+                            ],
+                            "empty": "none",
+                            "clear": "mouseout"
+                        }
+                    },
+                    "mark": "point",
+                    "encoding": {
+                        "opacity": {
+                            "condition": {
+                                "selection": "label",
+                                "value": 1
+                            },
+                            "value": 0
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "transform": [
+                {
+                    "filter": {
+                        "selection": "label"
+                    }
+                }
+            ],
+            "layer": [
+                {
+                    "mark": {
+                        "type": "rule",
+                        "color": "gray"
+                    },
+                    "encoding": {
+                        "x": {
+                            "field": "step",
+                            "type": "quantitative"
+                        }
+                    }
+                },
+                {
+                    "encoding": {
+                        "text": {
+                            "type": "quantitative",
+                            "field": "learning_rate"
+                        },
+                        "x": {
+                            "field": "step",
+                            "type": "quantitative"
+                        },
+                        "y": {
+                            "field": "learning_rate",
+                            "type": "quantitative"
+                        }
+                    },
+                    "layer": [
+                        {
+                            "mark": {
+                                "type": "text",
+                                "align": "left",
+                                "dx": 5,
+                                "dy": -5
+                            },
+                            "encoding": {
+                                "color": {
+                                    "type": "nominal",
+                                    "field": "rev"
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+;
+            vegaEmbed('#static_learning_rate', spec);
+        </script>
+    </div>
+    
+
+    <div id = "static_training_loss">
+        <script type = "text/javascript">
+            var spec = {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {
+        "values": [
+    {
+        "rev": "workspace",
+        "step": "0",
+        "timestamp": "1660825464502",
+        "training_loss": "98.8092041015625"
+    },
+    {
+        "rev": "workspace",
+        "step": "1",
+        "timestamp": "1660825483564",
+        "training_loss": "83.05995093451605"
+    },
+    {
+        "rev": "workspace",
+        "step": "2",
+        "timestamp": "1660825511816",
+        "training_loss": "47.077234480116104"
+    },
+    {
+        "rev": "workspace",
+        "step": "3",
+        "timestamp": "1660825539565",
+        "training_loss": "36.41773393419054"
+    },
+    {
+        "rev": "workspace",
+        "step": "4",
+        "timestamp": "1660825568365",
+        "training_loss": "31.700767093234592"
+    },
+    {
+        "rev": "workspace",
+        "step": "5",
+        "timestamp": "1660825596502",
+        "training_loss": "29.829111099243164"
+    },
+    {
+        "rev": "workspace",
+        "step": "6",
+        "timestamp": "1660825625153",
+        "training_loss": "29.23832236395942"
+    },
+    {
+        "rev": "workspace",
+        "step": "7",
+        "timestamp": "1660825652099",
+        "training_loss": "24.440883848402237"
+    },
+    {
+        "rev": "workspace",
+        "step": "8",
+        "timestamp": "1660825679742",
+        "training_loss": "24.04564963446723"
+    },
+    {
+        "rev": "workspace",
+        "step": "9",
+        "timestamp": "1660825707347",
+        "training_loss": "21.441856384277344"
+    },
+    {
+        "rev": "workspace",
+        "step": "10",
+        "timestamp": "1660825735024",
+        "training_loss": "21.39887195163303"
+    },
+    {
+        "rev": "workspace",
+        "step": "11",
+        "timestamp": "1660825762116",
+        "training_loss": "20.974394268459744"
+    },
+    {
+        "rev": "workspace",
+        "step": "12",
+        "timestamp": "1660825789482",
+        "training_loss": "18.20745309193929"
+    },
+    {
+        "rev": "workspace",
+        "step": "13",
+        "timestamp": "1660825817930",
+        "training_loss": "16.68784024980333"
+    },
+    {
+        "rev": "workspace",
+        "step": "14",
+        "timestamp": "1660825844910",
+        "training_loss": "16.214575237698025"
+    },
+    {
+        "rev": "workspace",
+        "step": "15",
+        "timestamp": "1660825872497",
+        "training_loss": "14.282001389397514"
+    },
+    {
+        "rev": "workspace",
+        "step": "16",
+        "timestamp": "1660825900714",
+        "training_loss": "14.09248161315918"
+    },
+    {
+        "rev": "workspace",
+        "step": "17",
+        "timestamp": "1660825927620",
+        "training_loss": "12.71771272023519"
+    },
+    {
+        "rev": "workspace",
+        "step": "18",
+        "timestamp": "1660825956197",
+        "training_loss": "12.522839970058865"
+    },
+    {
+        "rev": "workspace",
+        "step": "19",
+        "timestamp": "1660825983000",
+        "training_loss": "11.1991974512736"
+    },
+    {
+        "rev": "workspace",
+        "step": "20",
+        "timestamp": "1660826010803",
+        "training_loss": "10.357221391465929"
+    },
+    {
+        "rev": "workspace",
+        "step": "21",
+        "timestamp": "1660826039014",
+        "training_loss": "10.340185165405273"
+    },
+    {
+        "rev": "workspace",
+        "step": "22",
+        "timestamp": "1660826066160",
+        "training_loss": "9.361974398295084"
+    },
+    {
+        "rev": "workspace",
+        "step": "23",
+        "timestamp": "1660826093977",
+        "training_loss": "10.300677405463325"
+    },
+    {
+        "rev": "workspace",
+        "step": "24",
+        "timestamp": "1660826121570",
+        "training_loss": "8.918431599934896"
+    },
+    {
+        "rev": "workspace",
+        "step": "25",
+        "timestamp": "1660826148654",
+        "training_loss": "9.046660741170248"
+    },
+    {
+        "rev": "workspace",
+        "step": "26",
+        "timestamp": "1660826175176",
+        "training_loss": "9.583243264092339"
+    },
+    {
+        "rev": "workspace",
+        "step": "27",
+        "timestamp": "1660826202883",
+        "training_loss": "8.086237854427761"
+    },
+    {
+        "rev": "workspace",
+        "step": "28",
+        "timestamp": "1660826229759",
+        "training_loss": "8.350099192725288"
+    },
+    {
+        "rev": "workspace",
+        "step": "29",
+        "timestamp": "1660826257497",
+        "training_loss": "7.92773421605428"
+    },
+    {
+        "rev": "workspace",
+        "step": "30",
+        "timestamp": "1660826285279",
+        "training_loss": "8.08603843053182"
+    },
+    {
+        "rev": "workspace",
+        "step": "31",
+        "timestamp": "1660826312148",
+        "training_loss": "8.205058521694607"
+    },
+    {
+        "rev": "workspace",
+        "step": "32",
+        "timestamp": "1660826338858",
+        "training_loss": "8.38568533791436"
+    },
+    {
+        "rev": "workspace",
+        "step": "33",
+        "timestamp": "1660826366663",
+        "training_loss": "8.301137977176243"
+    },
+    {
+        "rev": "workspace",
+        "step": "34",
+        "timestamp": "1660826393946",
+        "training_loss": "8.325559298197428"
+    },
+    {
+        "rev": "workspace",
+        "step": "35",
+        "timestamp": "1660826421173",
+        "training_loss": "7.361267725626628"
+    },
+    {
+        "rev": "workspace",
+        "step": "36",
+        "timestamp": "1660826448634",
+        "training_loss": "7.982491864098443"
+    },
+    {
+        "rev": "workspace",
+        "step": "37",
+        "timestamp": "1660826476629",
+        "training_loss": "7.994371520148383"
+    },
+    {
+        "rev": "workspace",
+        "step": "38",
+        "timestamp": "1660826504792",
+        "training_loss": "8.588739818996853"
+    },
+    {
+        "rev": "workspace",
+        "step": "39",
+        "timestamp": "1660826533589",
+        "training_loss": "7.6476963890923395"
+    },
+    {
+        "rev": "workspace",
+        "step": "40",
+        "timestamp": "1660826561299",
+        "training_loss": "8.634086555904812"
+    },
+    {
+        "rev": "workspace",
+        "step": "41",
+        "timestamp": "1660826588131",
+        "training_loss": "7.128901216718885"
+    },
+    {
+        "rev": "workspace",
+        "step": "42",
+        "timestamp": "1660826615744",
+        "training_loss": "7.492653634813097"
+    },
+    {
+        "rev": "workspace",
+        "step": "43",
+        "timestamp": "1660826644061",
+        "training_loss": "7.448870552910699"
+    },
+    {
+        "rev": "workspace",
+        "step": "44",
+        "timestamp": "1660826671688",
+        "training_loss": "8.38471253712972"
+    },
+    {
+        "rev": "workspace",
+        "step": "45",
+        "timestamp": "1660826699697",
+        "training_loss": "7.269776450263129"
+    },
+    {
+        "rev": "workspace",
+        "step": "46",
+        "timestamp": "1660826727834",
+        "training_loss": "7.5865918265448675"
+    },
+    {
+        "rev": "workspace",
+        "step": "47",
+        "timestamp": "1660826756942",
+        "training_loss": "7.6796740425957575"
+    },
+    {
+        "rev": "workspace",
+        "step": "48",
+        "timestamp": "1660826786060",
+        "training_loss": "7.856927023993598"
+    },
+    {
+        "rev": "workspace",
+        "step": "49",
+        "timestamp": "1660826814369",
+        "training_loss": "7.888600826263428"
+    }
+]
+    },
+    "title": "",
+    "width": 300,
+    "height": 300,
+    "layer": [
+        {
+            "encoding": {
+                "x": {
+                    "field": "step",
+                    "type": "quantitative",
+                    "title": "step"
+                },
+                "y": {
+                    "field": "training_loss",
+                    "type": "quantitative",
+                    "title": "training_loss",
+                    "scale": {
+                        "zero": false
+                    }
+                },
+                "color": {
+                    "field": "rev",
+                    "type": "nominal"
+                }
+            },
+            "layer": [
+                {
+                    "mark": "line"
+                },
+                {
+                    "selection": {
+                        "label": {
+                            "type": "single",
+                            "nearest": true,
+                            "on": "mouseover",
+                            "encodings": [
+                                "x"
+                            ],
+                            "empty": "none",
+                            "clear": "mouseout"
+                        }
+                    },
+                    "mark": "point",
+                    "encoding": {
+                        "opacity": {
+                            "condition": {
+                                "selection": "label",
+                                "value": 1
+                            },
+                            "value": 0
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "transform": [
+                {
+                    "filter": {
+                        "selection": "label"
+                    }
+                }
+            ],
+            "layer": [
+                {
+                    "mark": {
+                        "type": "rule",
+                        "color": "gray"
+                    },
+                    "encoding": {
+                        "x": {
+                            "field": "step",
+                            "type": "quantitative"
+                        }
+                    }
+                },
+                {
+                    "encoding": {
+                        "text": {
+                            "type": "quantitative",
+                            "field": "training_loss"
+                        },
+                        "x": {
+                            "field": "step",
+                            "type": "quantitative"
+                        },
+                        "y": {
+                            "field": "training_loss",
+                            "type": "quantitative"
+                        }
+                    },
+                    "layer": [
+                        {
+                            "mark": {
+                                "type": "text",
+                                "align": "left",
+                                "dx": 5,
+                                "dy": -5
+                            },
+                            "encoding": {
+                                "color": {
+                                    "type": "nominal",
+                                    "field": "rev"
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+;
+            vegaEmbed('#static_training_loss', spec);
+        </script>
+    </div>
+    
+
+        <div id="dvclive_Benchmark_json" style="text-align: center; padding: 10x">
+            <p>dvclive_Benchmark_json</p>
+            <div style="display: flex;justify-content: center;">
+                <table>
+<thead>
+<tr><th style="text-align: right;">  step</th><th style="text-align: right;">  training_loss</th><th style="text-align: right;">  validation_loss</th><th style="text-align: right;">  learning_rate</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: right;">    49</td><td style="text-align: right;">         7.8886</td><td style="text-align: right;">          11.9704</td><td style="text-align: right;">          1e-05</td></tr>
+</tbody>
+</table>
+            </div>
+        </div>
+</body>
+</html>

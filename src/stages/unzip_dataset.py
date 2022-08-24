@@ -6,7 +6,7 @@ import yaml
 
 def main(params):
     stage_params = yaml.safe_load(open(params.params))
-    data_root = Path(stage_params["data"]["data_root"])
+    data_root = Path(stage_params["data"]["root"])
     teacher_data_path = stage_params["data"]["teacher_data"]
 
     if params.teacher:
@@ -16,10 +16,11 @@ def main(params):
         zipfile = ZipFile(teacher_data_archive_path)
         zipfile.extractall(path=data_root / teacher_data_path)
     else:
-        baseline_dataset = stage_params["data"]["archive_baseline"]
-        baseline_data_archive_path = data_root / baseline_dataset
-        zipfile = ZipFile(baseline_data_archive_path)
-        zipfile.extractall(path=data_root)
+        baseline_dataset = stage_params["data"]["train"]
+        dataset_dir = data_root / baseline_dataset
+        dataset_dir.mkdir(exist_ok=True)
+        zipfile = ZipFile(dataset_dir.with_suffix(".zip"))
+        zipfile.extractall(path=dataset_dir)
 
 
 if __name__ == "__main__":

@@ -3,61 +3,58 @@ import torch.nn.functional as F
 from transformers import AutoFeatureExtractor, ResNetModel
 from torchvision.models.resnet import resnet50
 from torchvision.models import resnet50, ResNet50_Weights
-from torchvision.models.efficientnet import efficientnet_b5
+from torchvision.models.efficientnet import efficientnet_b3, EfficientNet_B3_Weights
 import torch
 from torchvision import transforms
+from torchvision.transforms import ToTensor
+
+
+class Preprocess(nn.Module):
+    def __init__(self):
+        super().__init__()
+    def forward(self,x):
+        x = transforms.functional.resize(x.float(),size=[256,256])
+        x = transforms.functional.crop(x, 224,224,224,224)
+        x = x / 255.0
+
+        x = transforms.functional.normalize(x, 
+                                            mean=[0.485, 0.456, 0.406], 
+                                            std=[0.229, 0.224, 0.225])
+        return x
 
 
 class EmbeddingNet(nn.Module):
-    def __init__(self):
+    def __init__(self, embedding_size=64):
         super(EmbeddingNet, self).__init__()
-        self.embedding = nn.Sequential(nn.Conv2d(3, 64, 5), nn.PReLU(),
-                                     nn.MaxPool2d(2, stride=2),
-                                     nn.Conv2d(64, 64, 5), nn.PReLU(),
-                                     nn.MaxPool2d(2, stride=2))
-                                    #  nn.Conv2d(64, 64, 3), nn.PReLU(),
-                                    #  nn.MaxPool2d(2,stride=2))
-        # self.feature_extractor = AutoFeatureExtractor.from_pretrained("microsoft/resnet-50")
-        # self.feature_extractor =  ResNetModel.from_pretrained("microsoft/resnet-50")
-        # self.resnet = resnet50()
-        # self.embedding = efficientnet_b5()
-        # modules=list(self.embedding.children())[:-1]
-        # self.resnet=nn.Sequential(*modules)
-        # for p in self.resnet.parameters():
-        #     p.requires_grad = False
-        # weights = ResNet50_Weights.DEFAULT
-        # weights = EfficientNet_B5_Weights.DEFAULT
-        # weights.
-        # self.transforms = weights.transforms()
+        self.pretrained_model = efficientnet_b3(weights=EfficientNet_B3_Weights.DEFAULT)
 
-        self.transforms = transforms.Compose([
-        transforms.ToPILImage(),
-        # transforms.Resize(256),
-        # transforms.CenterCrop(224),
-        transforms.ToTensor()
-       ])
+        self.transforms = Preprocess()
+        modules=list(self.pretrained_model.children())[:-1]
+        self.embedding=nn.Sequential(*modules)
+        for p in self.pretrained_model.parameters():
+            p.requires_grad = False
 
-        self.fc = nn.Sequential(nn.Linear(179776, 256),
+
+
+        self.embedding_size = embedding_size
+        self.fc = nn.Sequential(nn.Linear(1536, 712),
                                 nn.PReLU(),
-                                # nn.Linear(256, 256),
+                                nn.Linear(712, 256),
                                 nn.PReLU(),
-                                nn.Linear(256, 64)
+                                nn.Linear(256, self.embedding_size)
                                 )
 
     def forward(self, x):
-        # output = self.convnet(x)
+        output = self.transforms(x)
         output = self.embedding(x)
-
-        # output = output.last_hidden_state
-        # print(output.size())
         output = output.view(output.size(0),-1)
-        # x = torch.flatten(output, 1)
-        # print(output.shape)
         output = self.fc(output)
         return output
 
     def get_embedding(self, x):
         return self.forward(x)
+
+
 
 
 class EmbeddingNetL2(EmbeddingNet):
