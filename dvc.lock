@@ -1,23 +1,24 @@
 schema: '2.0'
 stages:
   unzip_dataset:
-    cmd: python src/stages/unzip_dataset.py --params=params.yaml
+    cmd: python src/stages/unzip_dataset.py
     deps:
-    - path: data/archive.zip
-      md5: 28eaead3ef745dcbf58ddee356f9f72a
-      size: 293174706
+    - path: data/baseline_split.zip
+      md5: a10dceec1b22b1b3f4bc08e549ddf978
+      size: 292752584
     - path: src/stages/unzip_dataset.py
-      md5: 8069ad82cacfc20314b1f49f8fe3c305
-      size: 599
+      md5: 13e131dd90084e23ad49eec6031b798b
+      size: 1028
     params:
       params.yaml:
-        unzip_dataset:
-          archive_baseline: archive.zip
-          data_root: data
+        data:
+          root: data
           dataset_baseline: images_128
+          teacher_data: teacher_data
+          train: baseline_split
     outs:
-    - path: data/images_128
-      md5: 2d35f1eb05bc40c5bb7ec7e7d12cc44f.dir
+    - path: data/baseline_split
+      md5: 22df0db38f0b7cf7486499b69e391c25.dir
       size: 294272494
       nfiles: 9347
   unzip_dataset@Dishes:

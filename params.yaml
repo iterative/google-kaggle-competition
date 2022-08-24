@@ -26,15 +26,6 @@ reports:
 
 
 
-split_dataset:
-  index_search:
-    output_folder: index_search_splitted
-    index_search_ratio: 0.3
-    seed: 1337
-  teacher_models:
-    output_folder: teacher_splitted
-    seed: 1337
-    test_ratio: 0.3
   
 
 

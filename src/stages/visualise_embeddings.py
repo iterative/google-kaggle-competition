@@ -32,12 +32,11 @@ def extract_embeddings(dataloader, model,embedding_size):
         embeddings = np.zeros((len(dataloader.dataset), embedding_size))
         labels = np.zeros(len(dataloader.dataset))
         k = 0
-        cuda = torch.cuda.is_available()
+        device = "cuda" if torch.cuda.is_available() else "cpu"
 
         for images, target in dataloader:
-            if cuda:
-                images = images.cuda()
-            embeddings[k:k+len(images)] = model.get_embedding(images).data.cpu().numpy()
+            images = images.to(device)
+            embeddings[k:k+len(images)] = model(images).data.cpu().numpy()
             labels[k:k+len(images)] = target.numpy()
             k += len(images)
     return embeddings, labels
@@ -49,7 +48,7 @@ def visualise(cli_params):
     model_path = Path(params["train"]["model_path"]) / "teacher" / cli_params.teacher / params["train"]["model_file"]
     model = torch.load(model_path)
     data_dir = Path(params["data"]["root"]) / params["data"]["train_data"] / cli_params.teacher
-    val_dataset = ImageFolder(data_dir / "train", transform=model.transforms)
+    val_dataset = ImageFolder(data_dir / "train", transform=ToTensor())
     data_loader = torch.utils.data.DataLoader(val_dataset, batch_size=128, shuffle=False)
     train_embeddings_tl, train_labels_tl = extract_embeddings(data_loader, model, params["train"]["embedding_size"])
     dim_reduction = umap.UMAP()

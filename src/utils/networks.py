@@ -6,6 +6,21 @@ from torchvision.models import resnet50, ResNet50_Weights
 from torchvision.models.efficientnet import efficientnet_b3, EfficientNet_B3_Weights
 import torch
 from torchvision import transforms
+from torchvision.transforms import ToTensor
+
+
+class Preprocess(nn.Module):
+    def __init__(self):
+        super().__init__()
+    def forward(self,x):
+        x = transforms.functional.resize(x.float(),size=[256,256])
+        x = transforms.functional.crop(x, 224,224,224,224)
+        x = x / 255.0
+
+        x = transforms.functional.normalize(x, 
+                                            mean=[0.485, 0.456, 0.406], 
+                                            std=[0.229, 0.224, 0.225])
+        return x
 
 
 class EmbeddingNet(nn.Module):
@@ -13,28 +28,24 @@ class EmbeddingNet(nn.Module):
         super(EmbeddingNet, self).__init__()
         self.pretrained_model = efficientnet_b3(weights=EfficientNet_B3_Weights.DEFAULT)
 
-
+        self.transforms = Preprocess()
         modules=list(self.pretrained_model.children())[:-1]
         self.embedding=nn.Sequential(*modules)
         for p in self.pretrained_model.parameters():
             p.requires_grad = False
 
-        self.transforms = transforms.Compose([
-        transforms.ToTensor(),
-        transforms.Resize(256),
-        transforms.CenterCrop(224),
-        transforms.Normalize([0.5619, 0.5130, 0.4781],[0.2907, 0.2843, 0.2969])
-       ])
+
 
         self.embedding_size = embedding_size
-        self.fc = nn.Sequential(nn.Linear(1536, self.embedding_size),
-                                # nn.PReLU(),
-                                # nn.Linear(712, 256),
-                                # nn.PReLU(),
-                                # nn.Linear(512, self.embedding_size)
+        self.fc = nn.Sequential(nn.Linear(1536, 712),
+                                nn.PReLU(),
+                                nn.Linear(712, 256),
+                                nn.PReLU(),
+                                nn.Linear(256, self.embedding_size)
                                 )
 
     def forward(self, x):
+        output = self.transforms(x)
         output = self.embedding(x)
         output = output.view(output.size(0),-1)
         output = self.fc(output)
@@ -42,6 +53,8 @@ class EmbeddingNet(nn.Module):
 
     def get_embedding(self, x):
         return self.forward(x)
+
+
 
 
 class EmbeddingNetL2(EmbeddingNet):

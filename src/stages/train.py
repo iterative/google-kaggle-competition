@@ -14,6 +14,7 @@ from src.utils.networks import EmbeddingNet
 from dvclive import Live
 from torch.optim import lr_scheduler
 from src.utils.trainer import fit
+from torchvision.transforms import ToTensor
 
 def run_one_batch(model, input_data, labels, margin, cuda, hardest_only=True, test=False):
     if cuda:
@@ -32,8 +33,8 @@ def train(cli_params):
     logger = loguru.logger
     embedding_net = EmbeddingNet(embedding_size=params["train"]["embedding_size"])
     model = embedding_net
-    train_dataset = ImageFolder(data_dir/"train", transform=embedding_net.transforms)
-    val_dataset = ImageFolder(data_dir/"val", transform=embedding_net.transforms)
+    train_dataset = ImageFolder(data_dir/"train", transform=ToTensor())
+    val_dataset = ImageFolder(data_dir/"val", transform=ToTensor())
 
     cuda = torch.cuda.is_available()
     
@@ -112,11 +113,11 @@ def train(cli_params):
     
     model_path = Path(params["train"]["model_path"]) / "teacher" / cli_params.teacher
     model_path.mkdir(exist_ok=True)
-    torch.save(model, model_path/params["train"]["model_file"])
+    saved_model = torch.jit.script(model.embedding_net)
+    saved_model.save(model_path/params["train"]["model_file"])
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--teacher", default="Dishes")
     parser.add_argument("--params", default="params.yaml")
     cli_params = parser.parse_args()
     train(cli_params)
