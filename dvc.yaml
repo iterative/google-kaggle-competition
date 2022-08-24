@@ -7,6 +7,8 @@ stages:
       deps:
       - data/${data.train}.zip
       - src/stages/unzip_dataset.py
+      params:
+      - data
 
   train_model:
       cmd: python src/stages/train.py 
@@ -15,6 +17,9 @@ stages:
       - src/stages/train.py
       outs:
       - ${train.model_path}/${train.model_file}
+      params:
+      - data
+      - train
       metrics:
       - ${reports.root}/dvclive.json:
           cache: false
@@ -30,3 +35,5 @@ stages:
       plots:
       - ${reports.root}/${reports.plots}/embedding.png:
           cache: false
+      params:
+      - reports

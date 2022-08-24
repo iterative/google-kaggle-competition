@@ -4,35 +4,19 @@ data:
   teacher_data: teacher_data
   train: baseline_split
 
-teacher_models:
-   - Baseline
-  # - Dishes
-  # - Landmarks
-  # - MNIST_exp
 train:
   model_path: "models"
   model_file: "model.pt"
   batch_size: 512
   margin: 5
   lr: 0.001
-  epochs: 1
+  epochs: 30
   embedding_size: 64
 
 reports:
   root: "reports"
   plots: "plots"
 
-
-
-split_dataset:
-  index_search:
-    output_folder: index_search_splitted
-    index_search_ratio: 0.3
-    seed: 1337
-  teacher_models:
-    output_folder: teacher_splitted
-    seed: 1337
-    test_ratio: 0.3
   
 
 

@@ -9,6 +9,13 @@ stages:
     - path: src/stages/unzip_dataset.py
       md5: 13e131dd90084e23ad49eec6031b798b
       size: 1028
+    params:
+      params.yaml:
+        data:
+          root: data
+          dataset_baseline: images_128
+          teacher_data: teacher_data
+          train: baseline_split
     outs:
     - path: data/baseline_split
       md5: 22df0db38f0b7cf7486499b69e391c25.dir
@@ -172,27 +179,47 @@ stages:
     - path: src/stages/train.py
       md5: a14fb1c45839c3333f7698ca93854ce3
       size: 2482
+    params:
+      params.yaml:
+        data:
+          root: data
+          dataset_baseline: images_128
+          teacher_data: teacher_data
+          train: baseline_split
+        train:
+          model_path: models
+          model_file: model.pt
+          batch_size: 512
+          margin: 5
+          lr: 0.001
+          epochs: 30
+          embedding_size: 64
     outs:
     - path: models/model.pt
-      md5: f9d9ecf88363603340688f8c5b25bc0d
-      size: 54902368
+      md5: a944b8b2f3a95997ab96924d5ea8b061
+      size: 54902304
     - path: reports/dvclive.json
-      md5: d8259d29b7476ef4391153328ec65187
-      size: 128
+      md5: 2f2ccbd7a1396639b931868631ff7222
+      size: 132
     - path: reports/dvclive/scalars
-      md5: be63aea04e6b5190dc35408977535e07.dir
-      size: 186
+      md5: afc08f20c33e9456f0b0799b2fda2b12.dir
+      size: 3001
       nfiles: 3
   visualise:
     cmd: python src/stages/visualise_embeddings.py
     deps:
     - path: models/model.pt
-      md5: f9d9ecf88363603340688f8c5b25bc0d
-      size: 54902368
+      md5: a944b8b2f3a95997ab96924d5ea8b061
+      size: 54902304
     - path: src/stages/visualise_embeddings.py
       md5: 832443d17834d8f6a0c1051fda265219
       size: 2553
+    params:
+      params.yaml:
+        reports:
+          root: reports
+          plots: plots
     outs:
     - path: reports/plots/embedding.png
-      md5: dca358f9bc8ef672caf4099bb75d182a
-      size: 231725
+      md5: ecca2ef327d4b68dfd528947f82497d8
+      size: 168477
