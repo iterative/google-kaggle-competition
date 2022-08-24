@@ -49,7 +49,7 @@ def visualise(cli_params):
     model_path = Path(params["train"]["model_path"]) / "teacher" / cli_params.teacher / params["train"]["model_file"]
     model = torch.load(model_path)
     data_dir = Path(params["data"]["root"]) / params["data"]["train_data"] / cli_params.teacher
-    val_dataset = ImageFolder(data_dir / "val", transform=model.transforms)
+    val_dataset = ImageFolder(data_dir / "train", transform=model.transforms)
     data_loader = torch.utils.data.DataLoader(val_dataset, batch_size=128, shuffle=False)
     train_embeddings_tl, train_labels_tl = extract_embeddings(data_loader, model, params["train"]["embedding_size"])
     dim_reduction = umap.UMAP()

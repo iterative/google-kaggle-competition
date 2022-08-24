@@ -27,11 +27,11 @@ class EmbeddingNet(nn.Module):
        ])
 
         self.embedding_size = embedding_size
-        self.fc = nn.Sequential(nn.Linear(1536, 712),
-                                nn.PReLU(),
-                                nn.Linear(712, 256),
-                                nn.PReLU(),
-                                nn.Linear(256, self.embedding_size)
+        self.fc = nn.Sequential(nn.Linear(1536, self.embedding_size),
+                                # nn.PReLU(),
+                                # nn.Linear(712, 256),
+                                # nn.PReLU(),
+                                # nn.Linear(512, self.embedding_size)
                                 )
 
     def forward(self, x):

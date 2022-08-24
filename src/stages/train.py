@@ -48,8 +48,9 @@ def train(cli_params):
     kwargs = {'num_workers': 6, 'pin_memory': True} if cuda else {}
     batch_size = params["train"]["batch_size"]
     n_classes = len(set(train_dataset.targets))
-    train_batch_sampler = BalancedBatchSampler(np.array(train_dataset.targets), n_classes=n_classes, n_samples=50)
-    val_batch_sampler = BalancedBatchSampler(np.array(val_dataset.targets), n_classes=n_classes, n_samples=50)
+    n_samples = batch_size//n_classes
+    train_batch_sampler = BalancedBatchSampler(np.array(train_dataset.targets), n_classes=n_classes, n_samples=n_samples)
+    val_batch_sampler = BalancedBatchSampler(np.array(val_dataset.targets), n_classes=n_classes, n_samples=n_samples)
     triplet_train_loader = torch.utils.data.DataLoader(train_dataset,batch_sampler=train_batch_sampler)#, batch_size=batch_size, shuffle=True, **kwargs)
     triplet_test_loader = torch.utils.data.DataLoader(val_dataset,batch_sampler=val_batch_sampler)#, batch_size=32, shuffle=False, **kwargs)
 
@@ -57,18 +58,21 @@ def train(cli_params):
     lr = params["train"]["lr"]
     optimizer = optim.Adam(model.parameters(), lr=lr)
     n_epochs = params["train"]["epochs"]
-    loss_fn = OnlineTripletLoss(margin, SemihardNegativeTripletSelector(margin))
+    # loss_fn = OnlineTripletLoss(margin, SemihardNegativeTripletSelector(margin))
     scheduler = lr_scheduler.StepLR(optimizer, params["train"]["scheduler_step_size"], gamma=0.1, last_epoch=-1)
     dvclive_path = Path(params["reports"]["root"]) / f"dvclive_{teacher_area}"
     dvclive_path.mkdir(parents=True, exist_ok=True)
     # ================================================================================================================================
     live = Live(dvclive_path)
+    hardest_only = False
     for epoch in range(n_epochs):
         train_epoch_loss = []
         model.train()
+        if epoch==15:
+            hardest_only = True
         for batch_idx, (data, labels) in enumerate(triplet_train_loader):
 
-            loss = run_one_batch(model, data, labels, margin, cuda, hardest_only=False)
+            loss = run_one_batch(model, data, labels, margin, cuda, hardest_only=hardest_only)
             # outputs = model(data.cuda())
             # loss,_ = loss_fn(outputs, labels)
             train_epoch_loss.append(loss.item())
