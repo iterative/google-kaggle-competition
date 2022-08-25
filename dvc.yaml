@@ -15,6 +15,7 @@ stages:
       deps:
       - data/${data.train}
       - src/stages/train.py
+      - src/utils/networks.py
       outs:
       - ${train.model_path}/teacher/${item}/model.pt
       metrics:
