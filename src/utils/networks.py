@@ -13,8 +13,7 @@ class Preprocess(nn.Module):
     def __init__(self):
         super().__init__()
     def forward(self,x):
-        x = transforms.functional.resize(x.float(),size=[256,256])
-        x = transforms.functional.crop(x, 224,224,224,224)
+        x = transforms.functional.resize(x.float(),size=[224,224])
         x = x / 255.0
 
         x = transforms.functional.normalize(x, 
@@ -46,7 +45,7 @@ class EmbeddingNet(nn.Module):
 
     def forward(self, x):
         output = self.transforms(x)
-        output = self.embedding(x)
+        output = self.embedding(output)
         output = output.view(output.size(0),-1)
         output = self.fc(output)
         return output

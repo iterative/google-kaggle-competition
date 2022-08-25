@@ -179,6 +179,9 @@ stages:
     - path: src/stages/train.py
       md5: a14fb1c45839c3333f7698ca93854ce3
       size: 2482
+    - path: src/utils/networks.py
+      md5: bd9402f772e27d26ae4477b6b7fbb4c8
+      size: 3627
     params:
       params.yaml:
         data:
@@ -188,29 +191,29 @@ stages:
           train: baseline_split
         train:
           model_path: models
-          model_file: model.pt
+          model_file: saved_model.pt
           batch_size: 512
           margin: 5
           lr: 0.001
           epochs: 30
           embedding_size: 64
     outs:
-    - path: models/model.pt
-      md5: a944b8b2f3a95997ab96924d5ea8b061
-      size: 54902304
+    - path: models/saved_model.pt
+      md5: 9f97edebc3d0557009a6e9615593ce3f
+      size: 54928182
     - path: reports/dvclive.json
-      md5: 2f2ccbd7a1396639b931868631ff7222
+      md5: a30a7c82314ea2db05aec610dd7c8d89
       size: 132
     - path: reports/dvclive/scalars
-      md5: afc08f20c33e9456f0b0799b2fda2b12.dir
-      size: 3001
+      md5: ef2965e375a76743e2c4566f0565fefa.dir
+      size: 3017
       nfiles: 3
   visualise:
     cmd: python src/stages/visualise_embeddings.py
     deps:
-    - path: models/model.pt
-      md5: a944b8b2f3a95997ab96924d5ea8b061
-      size: 54902304
+    - path: models/saved_model.pt
+      md5: 9f97edebc3d0557009a6e9615593ce3f
+      size: 54928182
     - path: src/stages/visualise_embeddings.py
       md5: 832443d17834d8f6a0c1051fda265219
       size: 2553
@@ -221,5 +224,5 @@ stages:
           plots: plots
     outs:
     - path: reports/plots/embedding.png
-      md5: ecca2ef327d4b68dfd528947f82497d8
-      size: 168477
+      md5: 4fd13d5db20a7ce5ec3b9eac87bee7f5
+      size: 124869
