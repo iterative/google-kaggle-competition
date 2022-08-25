@@ -1,15 +1,18 @@
+### Disclaimer
+
+* We used this implementation: [link](https://github.com/adambielski/siamese-triplet) 
+* We modified dataloaders to use images stored in folders
+* model has been changed from small custom CNN to efficientnet_b3 with pretrained weights
+
+
 ### How to install and run
 
 1. `poetry install`
-2a. `poetry run dvc pull`
-3a. `poetry run dvc repro`
+2. `poetry shell` which activates the environment
+3. `dvc import https://github.com/iterative/google-kaggle-competition-data-pipeline data/baseline_split.zip -o data/` -- it will import baseline dataset from our data registry. 
+4. `dvc repro` 
 
-or alternatively:
-
-2b. `poetry shell` which activates the environment
-3b. `dvc pull`
-4b. `dvc repro` 
-
+If dataset is imported but the data were removed/corrupted, it's enough to run `dvc pull data/baseline_split.zip.dvc` to pull data from the remote.
 
 
 
@@ -24,38 +27,22 @@ When we run `poetry install` it installs this repo as python package so we can u
 
 ### Dataset
 
-For the benchmark purposes we are using [this](https://www.kaggle.com/competitions/google-universal-image-embedding/discussion/336574) starter dataset.
-We downloaded this dataset and added it to DVC remote in our S3 bucket. The command `dvc pull` downloads the dataset to `data/teacher_data/Benchmark.zip`.
-There are two stages of the pipeline: unzip_dataset and split_dataset that unzip a zipped dataset and split it into `train` and `val`. 
+For the baseline purposes we are using [this](https://www.kaggle.com/competitions/google-universal-image-embedding/discussion/336574) starter dataset.
+We downloaded this dataset and added it to DVC remote in our S3 bucket. The command `dvc pull data/baseline_split.zip.dvc` downloads the dataset to `data/baseline_split.zip`.
 
 #### How to add a new dataset
-The code expects the following structure of a zip file:
-```
-Dataset.zip
-|-Dataset
-|---class1/
-|------img1
-|------img2
-|---class2/
-|------img1
-|------img2
-....
-```
+If you would like to run the pipeline with a custom dataset please refer to this [repo](https://github.com/iterative/google-kaggle-competition-data-pipeline/). It has scripts to prepare data into format that the training pipeline expects. 
 
-This zip file should be placed to `data/teacher_data/` then add `Dataset`(or any name of <dataset>.zip) to `teacher_models` list in `params.yaml` and that's it.  
+
+The produced zip file should be placed to `data/` then update `params.yaml` section `train` with archive name without the extension `.zip`
 
 
 ### Metrics and visualisations
 All metrics and visualisisations can be found under `reports/`. 
-Folders that have prefix `dvclive` are produced by DVClive plugin that tracks live metrics of model training. `reports/plots` directory contains embeddings for all datasets listed in params.yaml under `teacher_models`
+ `dvclive` is produced by DVClive plugin that tracks live metrics of model training. `reports/plots` directory contains visualisations of embeddings.
 
 
 
-### Notes
 
-* We used this implementation: [link](https://github.com/adambielski/siamese-triplet) 
-* We had to modify dataloaders to use images stored in folders
-* model has been changed from small custom CNN to efficientnet_b3 with pretrained weights
-* more experiments are needed to see if it's benefitial. 
  
 

@@ -1,5 +1,2 @@
-[core]
-    remote = s3_storage
-['remote "s3_storage"']
-    url = s3://sandbox-datasets-iterative/kaggle-competition
+
 
