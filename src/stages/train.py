@@ -27,8 +27,12 @@ def run_one_batch(model, input_data, labels, margin, cuda, hardest_only=True, te
 
 def train(cli_params):
     params = yaml.safe_load(open(cli_params.params))
-    teacher_area = cli_params.teacher
-    data_dir = Path(params["data"]["root"]) / params["data"]["train_data"] / teacher_area
+    data_dir = Path(params["data"]["root"]) 
+    teacher_area = "Dishes"
+    if cli_params.teacher:
+        data_dir = data_dir / params["data"]["teacher_data"] / cli_params.teacher
+    else:
+        data_dir = data_dir / params["data"]["train"]
 
     logger = loguru.logger
     embedding_net = EmbeddingNet(embedding_size=params["train"]["embedding_size"])
@@ -52,8 +56,8 @@ def train(cli_params):
     n_samples = batch_size//n_classes
     train_batch_sampler = BalancedBatchSampler(np.array(train_dataset.targets), n_classes=n_classes, n_samples=n_samples)
     val_batch_sampler = BalancedBatchSampler(np.array(val_dataset.targets), n_classes=n_classes, n_samples=n_samples)
-    triplet_train_loader = torch.utils.data.DataLoader(train_dataset,batch_sampler=train_batch_sampler)#, batch_size=batch_size, shuffle=True, **kwargs)
-    triplet_test_loader = torch.utils.data.DataLoader(val_dataset,batch_sampler=val_batch_sampler)#, batch_size=32, shuffle=False, **kwargs)
+    triplet_train_loader = torch.utils.data.DataLoader(train_dataset,batch_sampler=train_batch_sampler, **kwargs)
+    triplet_test_loader = torch.utils.data.DataLoader(val_dataset,batch_sampler=val_batch_sampler, **kwargs)
 
     margin = params["train"]["margin"]
     lr = params["train"]["lr"]
@@ -69,8 +73,8 @@ def train(cli_params):
     for epoch in range(n_epochs):
         train_epoch_loss = []
         model.train()
-        if epoch==15:
-            hardest_only = True
+        # if epoch==15:
+            # hardest_only = True
         for batch_idx, (data, labels) in enumerate(triplet_train_loader):
 
             loss = run_one_batch(model, data, labels, margin, cuda, hardest_only=hardest_only)
@@ -113,12 +117,13 @@ def train(cli_params):
     
     model_path = Path(params["train"]["model_path"]) / "teacher" / cli_params.teacher
     model_path.mkdir(exist_ok=True)
-    saved_model = torch.jit.script(model.embedding_net)
+    saved_model = torch.jit.script(model)
     saved_model.save(model_path/params["train"]["model_file"])
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--params", default="params.yaml")
+    parser.add_argument("--teacher")
     cli_params = parser.parse_args()
     train(cli_params)
 

@@ -1,36 +1,40 @@
 stages:
   unzip_dataset:
-      cmd: python src/stages/unzip_dataset.py 
-      outs:
-      - data/${data.train}:
-          cache: false
-      deps:
-      - data/${data.train}.zip
-      - src/stages/unzip_dataset.py
-      params:
-      - data
+      foreach: ${teacher_models}
+      do:
+        cmd: python src/stages/unzip_dataset.py --teacher ${item}
+        outs:
+        - ${data.root}/${data.teacher_data}/${item}:
+            cache: false
+        deps:
+        - ${data.root}/${data.teacher_data}/${item}.zip
+        - src/stages/unzip_dataset.py
+        params:
+        - data
 
   train_model:
-      cmd: python src/stages/train.py 
-      deps:
-      - data/${data.train}
-      - src/stages/train.py
-      - src/utils/networks.py
-      outs:
-      - ${train.model_path}/teacher/${item}/model.pt
-      metrics:
-      - ${reports.root}/dvclive_${item}.json:
-          cache: false
-      plots:
-      - ${reports.root}/dvclive_${item}/scalars:
-          cache: false
+      foreach: ${teacher_models}
+      do:
+        cmd: python src/stages/train.py --teacher ${item}
+        deps:
+        - ${data.root}/${data.teacher_data}/${item}
+        - src/stages/train.py
+        - src/utils/networks.py
+        outs:
+        - ${train.model_path}/teacher/${item}/${train.model_file}
+        metrics:
+        - ${reports.root}/dvclive_${item}.json:
+            cache: false
+        plots:
+        - ${reports.root}/dvclive_${item}/scalars:
+            cache: false
 
   visualise:
     foreach: ${teacher_models}
     do:
       cmd: python src/stages/visualise_embeddings.py --params=params.yaml --teacher ${item}
       deps: 
-        - ${train.model_path}/teacher/${item}/model.pt
+        - ${train.model_path}/teacher/${item}/${train.model_file}
         - src/stages/visualise_embeddings.py
       plots:
        - ${reports.root}/${reports.plots}/${item}/embedding.png:

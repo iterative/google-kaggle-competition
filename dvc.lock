@@ -24,17 +24,23 @@ stages:
   unzip_dataset@Dishes:
     cmd: python src/stages/unzip_dataset.py --teacher Dishes
     deps:
-    - path: data/teacher_data/Dishes.zip
-      md5: 9df78eee5fa02415ebf3d46b45a73c50
-      size: 227445027
+    - path: data/teacher/Dishes.zip
+      md5: 183a5e90af220b5336726cf4320230c9
+      size: 347542634
     - path: src/stages/unzip_dataset.py
-      md5: 76423c7f1b0dbd58f01344dc9fb95eda
-      size: 1006
+      md5: c6742a1d19d7abc4a28bf1ee152cc38d
+      size: 861
+    params:
+      params.yaml:
+        data:
+          root: data
+          teacher_data: teacher
+          train: baseline_split
     outs:
-    - path: data/teacher_data/Dishes
-      md5: b23cf150b12c80be59b94ca9a48ebc24.dir
-      size: 227858517
-      nfiles: 9000
+    - path: data/teacher/Dishes
+      md5: 48e93e9f405fd2738e9ecb1c08d03bda.dir
+      size: 348038100
+      nfiles: 13779
   split_dataset:
     cmd: python src/stages/split_dataset.py --params=params.yaml
     deps:
@@ -209,13 +215,37 @@ stages:
     cmd: python src/stages/visualise_embeddings.py --params=params.yaml --teacher
       Dishes
     deps:
-    - path: models/teacher/Dishes/model.pt
-      md5: 3d09a6fc02fd15cfc96d8fd1b2befc84
-      size: 54727541
+    - path: models/teacher/Dishes/saved_model.pt
+      md5: 788b479cb7ff1db0513a6b79bf13e42b
+      size: 54928182
     - path: src/stages/visualise_embeddings.py
-      md5: 6f79d378faf3057666c990f859c15a2e
-      size: 2681
+      md5: 0494ac5cf2037daaa795c9a2a97a97e0
+      size: 2669
     outs:
     - path: reports/plots/Dishes/embedding.png
-      md5: 0d52acf0fbb5b8a733d7bbd3800d1f62
-      size: 226969
+      md5: 56a8c636793f869eccea8f6f04ce066a
+      size: 239295
+  train_model@Dishes:
+    cmd: python src/stages/train.py --teacher Dishes
+    deps:
+    - path: data/teacher/Dishes
+      md5: 48e93e9f405fd2738e9ecb1c08d03bda.dir
+      size: 348038100
+      nfiles: 13779
+    - path: src/stages/train.py
+      md5: f9bbdfe55ed13740ec4be7628f9f9f3c
+      size: 5511
+    - path: src/utils/networks.py
+      md5: c790ca40b0a0d8d3bfbeb792b3197e4a
+      size: 3566
+    outs:
+    - path: models/teacher/Dishes/saved_model.pt
+      md5: 788b479cb7ff1db0513a6b79bf13e42b
+      size: 54928182
+    - path: reports/dvclive_Dishes.json
+      md5: 032a77c38cf754a69deca96f7f145cf3
+      size: 133
+    - path: reports/dvclive_Dishes/scalars
+      md5: 6191d2ac04011bd23592272ff9c412d5.dir
+      size: 3027
+      nfiles: 3
