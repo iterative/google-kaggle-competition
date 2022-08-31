@@ -1,40 +1,48 @@
 stages:
   unzip_dataset:
-      cmd: python src/stages/unzip_dataset.py 
-      outs:
-      - data/${data.train}:
-          cache: false
-      deps:
-      - data/${data.train}.zip
-      - src/stages/unzip_dataset.py
-      params:
-      - data
+      foreach: ${datasets}
+      do:
+        cmd: python src/stages/unzip_dataset.py --dataset ${item}
+        outs:
+        - ${data.root}/${item}_${data.index_file}
+        deps:
+        - ${data.root}/${item}.zip
+        - src/stages/unzip_dataset.py
+        params:
+        - data
 
   train_model:
-      cmd: python src/stages/train.py 
-      deps:
-      - data/${data.train}
-      - src/stages/train.py
-      - src/utils/networks.py
-      outs:
-      - ${train.model_path}/${train.model_file}
-      params:
-      - data
-      - train
-      metrics:
-      - ${reports.root}/dvclive.json:
-          cache: false
-      plots:
-      - ${reports.root}/dvclive/scalars:
-          cache: false
+      foreach: ${datasets}
+      do:
+        cmd: python src/stages/train.py --dataset ${item}
+        deps:
+        # - ${data.root}/${data.teacher_data}/${item}
+        - ${data.root}/${item}_${data.index_file}
+        - src/stages/train.py
+        - src/utils/networks.py
+        outs:
+        - ${train.model_path}/${item}/${train.model_file}
+        metrics:
+        - ${reports.root}/dvclive_${item}.json:
+            cache: false
+        plots:
+        - ${reports.root}/dvclive_${item}/scalars:
+            cache: false
+        params:
+         - datasets
+         - train
 
   visualise:
-      cmd: python src/stages/visualise_embeddings.py
-      deps:
-      - ${train.model_path}/${train.model_file}
-      - src/stages/visualise_embeddings.py
+    foreach: ${datasets}
+    do:
+      cmd: python src/stages/visualise_embeddings.py --params=params.yaml --dataset ${item}
+      deps: 
+        - ${train.model_path}/${item}/${train.model_file}
+        - src/stages/visualise_embeddings.py
       plots:
-      - ${reports.root}/${reports.plots}/embedding.png:
+       - ${reports.root}/${reports.plots}/${item}/embedding.png:
           cache: false
       params:
-      - reports
+       - reports
+
+

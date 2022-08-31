@@ -7,12 +7,9 @@ import umap
 import matplotlib.pyplot as plt
 from pathlib import Path
 import yaml 
-
-
-
 colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728',
               '#9467bd', '#8c564b', '#e377c2', '#7f7f7f',
-              '#bcbd22', '#17becf']
+              '#bcbd22', '#17becf', "#ffbb11"]
 
 def plot_embeddings(embeddings, targets, xlim=None, ylim=None, classes=None, save_path=None):
    
@@ -48,16 +45,17 @@ def extract_embeddings(dataloader, model,embedding_size):
 def visualise(cli_params):
     params = yaml.safe_load(open(cli_params.params))
 
-    model_path = Path(params["train"]["model_path"]) / params["train"]["model_file"]
+    model_path = Path(params["train"]["model_path"]) / cli_params.dataset / params["train"]["model_file"]
     model = torch.jit.load(model_path)
-    model.eval()
-    data_dir = Path(params["data"]["root"]) / params["data"]["train"] 
-    val_dataset = ImageFolder(data_dir / "val", transform=ToTensor())
+
+    data_dir = Path(params["data"]["root"]) / cli_params.dataset
+    val_dataset = ImageFolder(data_dir / "test", transform=ToTensor())
+
     data_loader = torch.utils.data.DataLoader(val_dataset, batch_size=128, shuffle=False)
     train_embeddings_tl, train_labels_tl = extract_embeddings(data_loader, model, params["train"]["embedding_size"])
     dim_reduction = umap.UMAP()
     train_embeddings_low_dim = dim_reduction.fit_transform(train_embeddings_tl)
-    output_path = Path(params["reports"]["root"]) / Path(params["reports"]["plots"]) 
+    output_path = Path(params["reports"]["root"]) / Path(params["reports"]["plots"]) / cli_params.dataset
     output_path.mkdir(parents=True, exist_ok=True)
     plot_embeddings(train_embeddings_low_dim, train_labels_tl, classes=val_dataset.classes, save_path=output_path / "embedding.png")
 
@@ -67,6 +65,7 @@ def visualise(cli_params):
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser()
+    parser.add_argument("--dataset", default="Dishes")
     parser.add_argument("--params", default="params.yaml")
     cli_params = parser.parse_args()
     visualise(cli_params)

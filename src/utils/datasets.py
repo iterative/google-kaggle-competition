@@ -3,7 +3,7 @@ from PIL import Image
 
 from torch.utils.data import Dataset
 from torch.utils.data.sampler import BatchSampler
-from torchvision.transforms.functional import pil_to_tensor
+
 
 class SiameseMNIST(Dataset):
     """
@@ -159,8 +159,8 @@ class BalancedBatchSampler(BatchSampler):
 
     def __init__(self, labels, n_classes, n_samples):
         self.labels = labels
-        self.labels_set = list(set(self.labels.numpy()))
-        self.label_to_indices = {label: np.where(self.labels.numpy() == label)[0]
+        self.labels_set = list(set(self.labels))
+        self.label_to_indices = {label: np.where(self.labels == label)[0]
                                  for label in self.labels_set}
         for l in self.labels_set:
             np.random.shuffle(self.label_to_indices[l])

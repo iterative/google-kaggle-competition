@@ -1,31 +1,26 @@
 import argparse
+from operator import index
 from zipfile import ZipFile
 from pathlib import Path
 import yaml
 
 
-def main(params):
-    stage_params = yaml.safe_load(open(params.params))
-    data_root = Path(stage_params["data"]["root"])
-    teacher_data_path = stage_params["data"]["teacher_data"]
+def main(cli_params):
+    params = yaml.safe_load(open(cli_params.params))
+    data_root = Path(params["data"]["root"])
 
-    if params.teacher:
-        teacher_data_archive_path = (
-            data_root / teacher_data_path / params.teacher
-        ).with_suffix(".zip")
-        zipfile = ZipFile(teacher_data_archive_path)
-        zipfile.extractall(path=data_root / teacher_data_path)
-    else:
-        baseline_dataset = stage_params["data"]["train"]
-        dataset_dir = data_root / baseline_dataset
-        dataset_dir.mkdir(exist_ok=True)
-        zipfile = ZipFile(dataset_dir.with_suffix(".zip"))
-        zipfile.extractall(path=dataset_dir)
+    dataset_path = data_root / cli_params.dataset
+    zipfile = ZipFile(dataset_path.with_suffix(".zip"))
+    files = zipfile.namelist() 
+    index_file_name = f"{cli_params.dataset}_{params['data']['index_file']}"
+    with open(data_root / index_file_name, "w") as f:
+        f.write("\n".join(files))
+    zipfile.extractall(path=dataset_path)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--params", type=str, default="params.yaml")
-    parser.add_argument("--teacher", type=str)
+    parser.add_argument("--dataset", type=str, required=True)
     args = parser.parse_args()
     main(args)

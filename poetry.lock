@@ -571,7 +571,7 @@ pgp = ["gpg"]
 
 [[package]]
 name = "dvc"
-version = "2.18.0"
+version = "2.18.1"
 description = "Git for data scientists - manage your code and data together"
 category = "main"
 optional = false
@@ -585,7 +585,8 @@ colorama = ">=0.3.9"
 configobj = ">=5.0.6"
 distro = ">=1.3.0"
 dpath = ">=2.0.2,<3"
-dvc-data = "0.1.15"
+dvc-data = "0.1.17"
+dvc-http = "0.0.2"
 dvc-render = "0.0.9"
 dvc-task = "0.1.2"
 dvclive = ">=0.10.0"
@@ -634,7 +635,7 @@ all = ["webdav4 (>=0.9.3)", "sshfs[bcrypt] (>=2022.6.0)", "bcrypt", "aiobotocore
 
 [[package]]
 name = "dvc-data"
-version = "0.1.15"
+version = "0.1.17"
 description = "dvc data"
 category = "main"
 optional = false
@@ -643,7 +644,7 @@ python-versions = ">=3.8"
 [package.dependencies]
 dictdiffer = ">=0.8.1"
 diskcache = ">=5.2.1"
-dvc-objects = "0.1.8"
+dvc-objects = "0.1.11"
 funcy = ">=1.14"
 nanotime = ">=0.5.2"
 pygtrie = ">=2.3.2"
@@ -656,8 +657,24 @@ cli = ["rich (>=10.11.0,<13.0.0)", "typer[rich] (>=0.6)"]
 all = ["rich (>=10.11.0,<13.0.0)", "typer[rich] (>=0.6)"]
 
 [[package]]
+name = "dvc-http"
+version = "0.0.2"
+description = "http plugin for dvc"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[package.dependencies]
+aiohttp-retry = ">=2.5.0"
+dvc = "*"
+fsspec = "*"
+
+[package.extras]
+tests = ["pywin32 (>=225)", "types-toml (==0.10.1)", "types-tabulate (==0.8.3)", "types-requests (==2.25.11)", "mypy (==0.910)", "pylint-plugin-utils (==0.6)", "pylint-pytest (==1.1.2)", "pylint (==2.11.1)", "pydocstyle (==6.1.1)", "collective.checkdocs (==0.2)", "Pygments (==2.10.0)", "xmltodict (==0.12.0)", "crc32c (==2.2.post0)", "wsgidav (==3.1.1)", "filelock (==3.3.2)", "wget (==3.2)", "rangehttpserver (==1.2.0)", "mock (==4.0.3)", "flaky (==3.7.0)", "pytest-docker (==0.10.3)", "pytest-lazy-fixture (==0.6.3)", "pytest-mock (==3.6.1)", "pytest-xdist (==2.4.0)", "pytest-cov (==3.0.0)", "pytest (==6.2.5)", "dvc", "wheel (==0.37.0)"]
+
+[[package]]
 name = "dvc-objects"
-version = "0.1.8"
+version = "0.1.11"
 description = "dvc objects"
 category = "main"
 optional = false
@@ -678,13 +695,13 @@ tests = ["pytest-servers[s3] (==0.0.8)", "mypy (==0.971)", "pylint (==2.14.5)", 
 ssh = ["sshfs[bcrypt] (>=2021.11.2)", "bcrypt"]
 s3 = ["aiobotocore[boto3] (>2)", "s3fs[boto3] (>=2022.02.0)"]
 oss = ["ossfs (>=2021.8.0)"]
-http = ["aiohttp-retry (>=2.5.0)"]
+http = ["dvc-http"]
 hdfs = ["fsspec", "pyarrow (>=1)"]
 gs = ["gcsfs (>=2021.11.1)"]
 gdrive = ["pydrive2[fsspec] (>=1.14.0)"]
-dev = ["fsspec", "pyarrow (>=1)", "webdav4 (>=0.9.3)", "sshfs[bcrypt] (>=2021.11.2)", "bcrypt", "aiobotocore[boto3] (>2)", "s3fs[boto3] (>=2022.02.0)", "ossfs (>=2021.8.0)", "aiohttp-retry (>=2.5.0)", "gcsfs (>=2021.11.1)", "pydrive2[fsspec] (>=1.14.0)", "knack", "azure-identity (>=1.4.0)", "adlfs (>=2021.10.0)", "pytest-servers[s3] (==0.0.8)", "mypy (==0.971)", "pylint (==2.14.5)", "pytest-mock (==3.8.2)", "pytest-cov (==3.0.0)", "pytest-sugar (==0.9.5)", "pytest (==7.1.2)"]
+dev = ["fsspec", "pyarrow (>=1)", "webdav4 (>=0.9.3)", "sshfs[bcrypt] (>=2021.11.2)", "bcrypt", "aiobotocore[boto3] (>2)", "s3fs[boto3] (>=2022.02.0)", "ossfs (>=2021.8.0)", "dvc-http", "gcsfs (>=2021.11.1)", "pydrive2[fsspec] (>=1.14.0)", "knack", "azure-identity (>=1.4.0)", "adlfs (>=2021.10.0)", "pytest-servers[s3] (==0.0.8)", "mypy (==0.971)", "pylint (==2.14.5)", "pytest-mock (==3.8.2)", "pytest-cov (==3.0.0)", "pytest-sugar (==0.9.5)", "pytest (==7.1.2)"]
 azure = ["knack", "azure-identity (>=1.4.0)", "adlfs (>=2021.10.0)"]
-all = ["fsspec", "pyarrow (>=1)", "webdav4 (>=0.9.3)", "sshfs[bcrypt] (>=2021.11.2)", "bcrypt", "aiobotocore[boto3] (>2)", "s3fs[boto3] (>=2022.02.0)", "ossfs (>=2021.8.0)", "aiohttp-retry (>=2.5.0)", "gcsfs (>=2021.11.1)", "pydrive2[fsspec] (>=1.14.0)", "knack", "azure-identity (>=1.4.0)", "adlfs (>=2021.10.0)"]
+all = ["fsspec", "pyarrow (>=1)", "webdav4 (>=0.9.3)", "sshfs[bcrypt] (>=2021.11.2)", "bcrypt", "aiobotocore[boto3] (>2)", "s3fs[boto3] (>=2022.02.0)", "ossfs (>=2021.8.0)", "dvc-http", "gcsfs (>=2021.11.1)", "pydrive2[fsspec] (>=1.14.0)", "knack", "azure-identity (>=1.4.0)", "adlfs (>=2021.10.0)"]
 
 [[package]]
 name = "dvc-render"
@@ -1252,6 +1269,21 @@ description = "lightweight wrapper around basic LLVM functionality"
 category = "main"
 optional = false
 python-versions = ">=3.7"
+
+[[package]]
+name = "loguru"
+version = "0.6.0"
+description = "Python logging made (stupidly) simple"
+category = "main"
+optional = false
+python-versions = ">=3.5"
+
+[package.dependencies]
+colorama = {version = ">=0.3.4", markers = "sys_platform == \"win32\""}
+win32-setctime = {version = ">=1.0.0", markers = "sys_platform == \"win32\""}
+
+[package.extras]
+dev = ["sphinx-rtd-theme (>=0.4.3)", "sphinx-autobuild (>=0.7.1)", "Sphinx (>=4.1.1)", "isort (>=5.1.1)", "black (>=19.10b0)", "pytest-cov (>=2.7.1)", "pytest (>=4.6.2)", "tox (>=3.9.0)", "flake8 (>=3.7.7)", "docutils (==0.16)", "colorama (>=0.3.4)"]
 
 [[package]]
 name = "lxml"
@@ -2339,6 +2371,17 @@ python-versions = "*"
 notebook = ">=4.4.1"
 
 [[package]]
+name = "win32-setctime"
+version = "1.1.0"
+description = "A small Python utility to set file creation time on Windows"
+category = "main"
+optional = false
+python-versions = ">=3.5"
+
+[package.extras]
+dev = ["black (>=19.3b0)", "pytest (>=4.6.2)"]
+
+[[package]]
 name = "wrapt"
 version = "1.14.1"
 description = "Module for decorators, wrappers and monkey patching."
@@ -2372,7 +2415,7 @@ test = ["zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "7a887ed49815f2b061f11783f9772636d0731d4a9ac33e61a14bdc54c7b9276f"
+content-hash = "0f757e64a6ff2e2f49e940ca3750c706c6972e52d1d5426b4385d00d18527e39"
 
 [metadata.files]
 aiobotocore = [
@@ -2777,16 +2820,20 @@ dulwich = [
     {file = "dulwich-0.20.45.tar.gz", hash = "sha256:70710dd9ca2a442190c7e506892db074c318ac762e221f7529b8ce34802041b7"},
 ]
 dvc = [
-    {file = "dvc-2.18.0-py3-none-any.whl", hash = "sha256:f5e88827c685b5b21958181cc1635aa3bc87b24a8bf609d799bc8b023f1c0691"},
-    {file = "dvc-2.18.0.tar.gz", hash = "sha256:4f6b801f5496a38c1caef592d37281587d0329853247a962fd5abaab071462e5"},
+    {file = "dvc-2.18.1-py3-none-any.whl", hash = "sha256:a57a6007d37001110dda5e10d033a48ddf3f8b38db081eae20aa4d3fcd2f6f97"},
+    {file = "dvc-2.18.1.tar.gz", hash = "sha256:e45bf01835058b661a166d7944a39d112ebe3fca65994aa93ec0cf3494712d3e"},
 ]
 dvc-data = [
-    {file = "dvc-data-0.1.15.tar.gz", hash = "sha256:76542b2f746286f44e563207808fc1d133382f9228ebde9fb06904d98de94460"},
-    {file = "dvc_data-0.1.15-py3-none-any.whl", hash = "sha256:5c38bf96b7ad5cf7fe6c5a7e33ccba144893d1c1296b35840e10e92d0c5128ce"},
+    {file = "dvc-data-0.1.17.tar.gz", hash = "sha256:84a2ec9c31d40d4e54a124dbfdd931593b81c817d88b5877cfbbd8c94c6b5ab5"},
+    {file = "dvc_data-0.1.17-py3-none-any.whl", hash = "sha256:b312321bc55e73344bf88c1425ae62c132b1cd9b13e5f7de146152d40343cfee"},
+]
+dvc-http = [
+    {file = "dvc-http-0.0.2.tar.gz", hash = "sha256:723706017b10d806b845cdd9dbf7ae97c2010443f34a6bffb4cfb41d7a2d1f88"},
+    {file = "dvc_http-0.0.2-py3-none-any.whl", hash = "sha256:7dd20073472edf2608023adc4e23fab90301547151b1f1bc927f89f1f3f87140"},
 ]
 dvc-objects = [
-    {file = "dvc-objects-0.1.8.tar.gz", hash = "sha256:fb6f40d592d138b67cbbc95463d8df4b5dc9a8d2a10ff059012e8d7c086beb3d"},
-    {file = "dvc_objects-0.1.8-py3-none-any.whl", hash = "sha256:4413e3a38b1af1690a3569696e21a975c6b634a4f6689bdd0bc4b0eb8e7dc964"},
+    {file = "dvc-objects-0.1.11.tar.gz", hash = "sha256:4ac351c54968a5055d7e7e28126be79c4937085a47e7fee12215a7f822cd2e59"},
+    {file = "dvc_objects-0.1.11-py3-none-any.whl", hash = "sha256:3bf5d9b0baea94662f9e074b24208e871af24c497385b39e4263286fa60d2cdc"},
 ]
 dvc-render = [
     {file = "dvc-render-0.0.9.tar.gz", hash = "sha256:6309e963f730b0a58c6e190ace02e076932fca66fcc55ea5e19086495a443e83"},
@@ -3066,6 +3113,10 @@ llvmlite = [
     {file = "llvmlite-0.39.0-cp39-cp39-win32.whl", hash = "sha256:0706abf522dc510ddc818f5c9e1cdae521a1416d3c399bbfc4827813379f0164"},
     {file = "llvmlite-0.39.0-cp39-cp39-win_amd64.whl", hash = "sha256:d4a8199263859b97f174035e39297e770617d3497fac44fe738f74ce9c51d22b"},
     {file = "llvmlite-0.39.0.tar.gz", hash = "sha256:01098be54f1aa25e391cebba8ea71cd1533f8cd1f50e34c7dd7540c2560a93af"},
+]
+loguru = [
+    {file = "loguru-0.6.0-py3-none-any.whl", hash = "sha256:4e2414d534a2ab57573365b3e6d0234dfb1d84b68b7f3b948e6fb743860a77c3"},
+    {file = "loguru-0.6.0.tar.gz", hash = "sha256:066bd06758d0a513e9836fd9c6b5a75bfb3fd36841f4b996bc60b547a309d41c"},
 ]
 lxml = [
     {file = "lxml-4.9.1-cp27-cp27m-macosx_10_15_x86_64.whl", hash = "sha256:98cafc618614d72b02185ac583c6f7796202062c41d2eeecdf07820bad3295ed"},
@@ -4109,6 +4160,10 @@ webencodings = [
 widgetsnbextension = [
     {file = "widgetsnbextension-3.6.1-py2.py3-none-any.whl", hash = "sha256:954e0faefdd414e4e013f17dbc7fd86f24cf1d243a3ac85d5f0fc2c2d2b50c66"},
     {file = "widgetsnbextension-3.6.1.tar.gz", hash = "sha256:9c84ae64c2893c7cbe2eaafc7505221a795c27d68938454034ac487319a75b10"},
+]
+win32-setctime = [
+    {file = "win32_setctime-1.1.0-py3-none-any.whl", hash = "sha256:231db239e959c2fe7eb1d7dc129f11172354f98361c4fa2d6d2d7e278baa8aad"},
+    {file = "win32_setctime-1.1.0.tar.gz", hash = "sha256:15cf5750465118d6929ae4de4eb46e8edae9a5634350c01ba582df868e932cb2"},
 ]
 wrapt = [
     {file = "wrapt-1.14.1-cp27-cp27m-macosx_10_9_x86_64.whl", hash = "sha256:1b376b3f4896e7930f1f772ac4b064ac12598d1c38d04907e696cc4d794b43d3"},

@@ -1,21 +1,28 @@
 data:
   root: data
-  dataset_baseline: images_128
-  teacher_data: teacher_data
-  train: baseline_split
+  index_file: "index.txt"
 
+datasets:
+  #  - Benchmark
+  # - Dishes
+  # - Landmarks
+  # - MNIST_exp
+  - baseline_130k_128_split
 train:
   model_path: "models"
   model_file: "saved_model.pt"
-  batch_size: 512
-  margin: 5
+  batch_size: 500
+  margin: 10
   lr: 0.001
+  scheduler_step_size: 14
   epochs: 30
   embedding_size: 64
 
 reports:
   root: "reports"
   plots: "plots"
+
+
 
   
 
