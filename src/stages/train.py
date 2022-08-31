@@ -80,7 +80,7 @@ def train(cli_params):
     live = Live(dvclive_path)
 
     logger = loguru.logger
-    for epoch in range(n_epochs-n_epochs):
+    for epoch in range(n_epochs):
 
         train_loss = run_epoch(triplet_train_loader, model, margin=margin, device=device, optimizer=optimizer, is_train=True)
         live.log("learning_rate", scheduler.get_last_lr()[0])
