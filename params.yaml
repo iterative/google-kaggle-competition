@@ -15,7 +15,7 @@ train:
   margin: 10
   lr: 0.001
   scheduler_step_size: 14
-  epochs: 30
+  epochs: 18
   embedding_size: 64
 
 reports:

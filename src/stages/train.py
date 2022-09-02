@@ -16,18 +16,15 @@ from dvclive import Live
 from torch.optim import lr_scheduler
 from src.utils.trainer import fit
 from torchvision.transforms import ToTensor
+from pytorch_metric_learning import miners, losses
 
 
-
-def run_epoch(data_loader, model, optimizer, margin, device, is_train=True):
+def run_epoch(data_loader, model, loss_func, miner, optimizer, margin, device, is_train=True):
         epoch_loss = []
-        if is_train:
-            model.train()
-        else:
-            model.eval()
+        model = model.train() if is_train else model.eval()
 
         for batch_idx, (data, labels) in enumerate(data_loader):
-            loss = run_one_batch(model, data, labels, margin, device, hardest_only=False)
+            loss = run_one_batch(model, data, labels, loss_func, miner, margin, device, hardest_only=False)
             epoch_loss.append(loss.item())
             if is_train:
                 optimizer.zero_grad()
@@ -36,11 +33,15 @@ def run_epoch(data_loader, model, optimizer, margin, device, is_train=True):
         return np.mean(epoch_loss)
 
 
-def run_one_batch(model, input_data, labels, margin, device, hardest_only=True, test=False):
+def run_one_batch(model, input_data, labels,loss_func, miner, margin, device, hardest_only=True, test=False):
     
     input_data = input_data.to(device)
+    input_data = input_data.half()
     labels = labels.to(device)
+    labels = labels
     batch_embeddings = model(input_data)
+    # hard_pairs = miner(batch_embeddings, labels)
+    # loss = loss_func(batch_embeddings, labels, hard_pairs)
     loss = batch_triplet_loss(batch_embeddings, labels, margin, hardest_only)
     return loss
 
@@ -71,7 +72,8 @@ def train(cli_params):
     triplet_train_loader = get_data_loader(train_dataset, batch_size=batch_size)
     triplet_test_loader = get_data_loader(val_dataset, batch_size=batch_size)
     
-    
+    miner = miners.TripletMarginMiner(type_of_triplets="semihard")
+    loss_func = losses.TripletMarginLoss(margin=margin)
     optimizer = optim.Adam(model.parameters(), lr=lr)
     scheduler = lr_scheduler.StepLR(optimizer, params["train"]["scheduler_step_size"], gamma=0.1, last_epoch=-1)
 
@@ -82,13 +84,13 @@ def train(cli_params):
     logger = loguru.logger
     for epoch in range(n_epochs):
 
-        train_loss = run_epoch(triplet_train_loader, model, margin=margin, device=device, optimizer=optimizer, is_train=True)
+        train_loss = run_epoch(triplet_train_loader, model, loss_func, miner, margin=margin, device=device, optimizer=optimizer, is_train=True)
         live.log("learning_rate", scheduler.get_last_lr()[0])
         scheduler.step()
         logger.info(f"Progress: {epoch}/{n_epochs} Loss: {train_loss}")
         live.log("training_loss", train_loss)
 
-        val_loss = run_epoch(triplet_test_loader, model, margin=margin, device=device, optimizer=optimizer, is_train=False)
+        val_loss = run_epoch(triplet_test_loader, model,loss_func, miner, margin=margin, device=device, optimizer=optimizer, is_train=False)
         live.log("validation_loss", val_loss)
         logger.info(f"Val loss: {val_loss}")
         live.next_step()
@@ -101,7 +103,7 @@ def train(cli_params):
 if __name__=="__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--params", default="params.yaml")
-    parser.add_argument("--dataset")
+    parser.add_argument("--dataset", default="baseline_130k_128_split")
     cli_params = parser.parse_args()
     train(cli_params)
 

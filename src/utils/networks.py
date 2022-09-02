@@ -5,6 +5,7 @@ from torchvision.models.resnet import resnet50
 from torchvision.models import resnet50, ResNet50_Weights
 from torchvision.models.efficientnet import efficientnet_b3, EfficientNet_B3_Weights
 from torchvision.models import convnext_base, ConvNeXt_Base_Weights
+import timm
 import torch
 from torchvision import transforms
 from torchvision.transforms import ToTensor
@@ -16,7 +17,6 @@ class Preprocess(nn.Module):
     def forward(self,x):
         x = transforms.functional.resize(x.float(),size=[224,224])
         x = x / 255.0
-
         x = transforms.functional.normalize(x, 
                                             mean=[0.485, 0.456, 0.406], 
                                             std=[0.229, 0.224, 0.225])
@@ -27,7 +27,8 @@ class EmbeddingNet(nn.Module):
     def __init__(self, embedding_size=64):
         super(EmbeddingNet, self).__init__()
         # self.pretrained_model = efficientnet_b3(weights=EfficientNet_B3_Weights.DEFAULT)
-        self.pretrained_model = convnext_base(weights=ConvNeXt_Base_Weights.DEFAULT)
+        self.pretrained_model = timm.create_model("efficientnet_b4", pretrained=True)
+        # self.pretrained_model = convnext_base(weights=ConvNeXt_Base_Weights.DEFAULT)
         self.transforms = Preprocess()
         modules=list(self.pretrained_model.children())[:-1]
         self.embedding=nn.Sequential(*modules)
@@ -37,11 +38,7 @@ class EmbeddingNet(nn.Module):
 
 
         self.embedding_size = embedding_size
-        self.fc = nn.Sequential(nn.Linear(1024, 712),
-                                nn.PReLU(),
-                                nn.Linear(712, 256),
-                                nn.PReLU(),
-                                nn.Linear(256, self.embedding_size)
+        self.fc = nn.Sequential(nn.Linear(1792, self.embedding_size),
                                 )
 
     def forward(self, x):
