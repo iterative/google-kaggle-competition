@@ -27,18 +27,18 @@ class EmbeddingNet(nn.Module):
     def __init__(self, embedding_size=64):
         super(EmbeddingNet, self).__init__()
         # self.pretrained_model = efficientnet_b3(weights=EfficientNet_B3_Weights.DEFAULT)
-        self.pretrained_model = timm.create_model("efficientnet_b4", pretrained=True)
+        self.pretrained_model = timm.create_model("xception", pretrained=True)
         # self.pretrained_model = convnext_base(weights=ConvNeXt_Base_Weights.DEFAULT)
         self.transforms = Preprocess()
-        modules=list(self.pretrained_model.children())[:-1]
-        self.embedding=nn.Sequential(*modules)
+        modules=list(self.pretrained_model.children())
+        self.embedding=nn.Sequential(*modules[:-1])
         for p in self.pretrained_model.parameters():
             p.requires_grad = False
 
 
 
         self.embedding_size = embedding_size
-        self.fc = nn.Sequential(nn.Linear(1792, self.embedding_size),
+        self.fc = nn.Sequential(nn.Linear(modules[-1].in_features, self.embedding_size),
                                 )
 
     def forward(self, x):

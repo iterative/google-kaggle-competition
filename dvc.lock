@@ -277,8 +277,8 @@ stages:
       md5: b325f32f6a0dde1686a2507d06a49719
       size: 4533
     - path: src/utils/networks.py
-      md5: 3a3f845235b6e5211ae01dd17e04e48e
-      size: 3626
+      md5: 90b6f678a3e3ff2b5cfe1365479f8862
+      size: 3638
     params:
       params.yaml:
         datasets:
@@ -294,22 +294,22 @@ stages:
           embedding_size: 64
     outs:
     - path: models/baseline_130k_128_split/saved_model.pt
-      md5: 1abfddbd5e77266ef0f111ee848f458e
-      size: 78778614
+      md5: d1f33615de7bfb721e50fea75ebbf478
+      size: 92371872
     - path: reports/dvclive_baseline_130k_128_split.json
-      md5: cd9e5203f3cd19f7380c066a05436f66
+      md5: 6b43c858d829b1ce983d5b0f373aacab
       size: 133
     - path: reports/dvclive_baseline_130k_128_split/scalars
-      md5: 7b518dbb8462bfd4170483861e71a51e.dir
-      size: 1860
+      md5: aaa62769042792e687b57fea2fce3d76.dir
+      size: 1855
       nfiles: 3
   visualise@baseline_130k_128_split:
     cmd: python src/stages/visualise_embeddings.py --params=params.yaml --dataset
       baseline_130k_128_split
     deps:
     - path: models/baseline_130k_128_split/saved_model.pt
-      md5: 1abfddbd5e77266ef0f111ee848f458e
-      size: 78778614
+      md5: d1f33615de7bfb721e50fea75ebbf478
+      size: 92371872
     - path: src/stages/visualise_embeddings.py
       md5: 3f2f51c6ecdb6b74a4fa5710a1595ca5
       size: 2637
@@ -320,5 +320,5 @@ stages:
           plots: plots
     outs:
     - path: reports/plots/baseline_130k_128_split/embedding.png
-      md5: 395695fb1eb4d262f66ca0681614254d
-      size: 212579
+      md5: 2feddd4b92f7a4e5a150d8377f8ddba0
+      size: 165362
