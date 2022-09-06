@@ -1,2 +1,4 @@
-
-
+[core]
+    remote = s3_storage
+['remote "s3_storage"']
+    url = https://remote.dvc.org/google-universal-image-embedding
