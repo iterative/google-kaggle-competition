@@ -32,27 +32,28 @@ def get_triplet_mask(labels):
 
 
 
-def batch_triplet_loss(embeddings, labels, margin, hardest_only=True):
+def batch_triplet_loss(embeddings, labels, margin, triplet_type="all"):
     pairwise_dist = torch.cdist(embeddings, embeddings)
 
-    if hardest_only:
-        mask_anchor_positive = get_anchor_positive_mask(labels).float()
-        anchor_positive_dist = pairwise_dist * mask_anchor_positive
-        hardest_positive_dist, _ = anchor_positive_dist.max(1, keepdim=True)
+    anchor_positive_dist = pairwise_dist.unsqueeze(2)  ## (batch_size, batch_size, 1)
+    anchor_negative_dist = pairwise_dist.unsqueeze(1)  ## (batch_size, 1, batch_size)
 
-        mask_anchor_negative = get_anchor_negative_mask(labels).float()
-        anchor_negative_dist = pairwise_dist + 999. * (1.0 - mask_anchor_negative)
-        hardest_negative_dist, _ = anchor_negative_dist.min(1, keepdim=True)
+    triplet_margin = anchor_negative_dist - anchor_positive_dist
+    triplet_mask = get_triplet_mask(labels) 
+    triplet_loss = -triplet_margin + margin  
+    if triplet_type == "semi-hard":
 
-        triplet_loss = hardest_positive_dist - hardest_negative_dist + margin  ## (batch_size, 1)
+        # loss = max(d_ap - d_an + margin,0) 
+        # we want  d_ap - d_an + margin > 0 => d_an - d_ap < margin
+
+        #1st term semi-hard criteria, it means that negative is further from anchor than positive; 
+        # 2nd term positive loss; 
+        condition = (triplet_margin > 0) & (triplet_margin <= margin) 
+        valid_mask = triplet_mask & condition
     else:
-        anchor_positive_dist = pairwise_dist.unsqueeze(2)  ## (batch_size, batch_size, 1)
-        anchor_negative_dist = pairwise_dist.unsqueeze(1)  ## (batch_size, 1, batch_size)
-        triplet_loss = anchor_positive_dist - anchor_negative_dist + margin ## broadcasting, all compibations of (a, p, n)
-        ## 1) select valid triplets
-        valid_mask = get_triplet_mask(labels).float()
-        triplet_loss = valid_mask.cuda() * triplet_loss
-    # remove easy triplets
-    # if not test
+        condition = (triplet_margin <= margin) | (triplet_margin > margin)        
+       
+    valid_mask = triplet_mask & condition
+    triplet_loss = triplet_loss[valid_mask]
     triplet_loss[triplet_loss < 0] = 0
     return torch.mean(triplet_loss)
