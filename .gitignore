@@ -132,3 +132,9 @@ dmypy.json
 
 /data/small_data
 /data/preprocessed
+data/teacher_data
+data/Apparel
+data/Furniture
+
+datasets/kaggle_130k/data
+datasets/kaggle_130k/kaggle_130k.zip

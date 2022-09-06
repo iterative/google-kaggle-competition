@@ -1,8 +1,10 @@
+import json
 import numpy as np
 from PIL import Image
 
 from torch.utils.data import Dataset
 from torch.utils.data.sampler import BatchSampler
+from typing import Any, Callable, cast, Dict, List, Optional, Tuple
 
 
 class SiameseMNIST(Dataset):
@@ -189,3 +191,71 @@ class BalancedBatchSampler(BatchSampler):
 
     def __len__(self):
         return self.n_dataset // self.batch_size
+
+
+class FiftyOneTorchDataset(Dataset):
+    """A class to construct a PyTorch dataset from a FiftyOne dataset.
+    
+    Args:
+        index_folder_path: Folder that contains labels.json and manifest.json
+            for the FiftyOne dataset 
+        transform (callable, optional): A function/transform that takes in
+            a sample and returns a transformed version.
+            E.g, ``transforms.RandomCrop`` for images.
+        gt_field ("ground_truth"): the name of the field in fiftyone_dataset 
+            that contains the desired labels to load
+        target_transform (callable, optional): A function/transform that takes
+            in the target and transforms it.
+    """
+
+    def __init__(
+        self,
+        index_folder_path,
+        transform=None,
+        gt_field="ground_truth",
+        target_transform=None,
+    ):
+        self.labels_file_path = index_folder_path/'labels.json'
+        self.manifest_file_path = index_folder_path/'manifest.json'
+        self.transform = transform
+        self.gt_field = gt_field
+        self.target_transform = target_transform
+
+        with open(self.labels_file_path) as json_file:
+            self.labels = json.load(json_file)
+
+        with open(self.manifest_file_path) as json_file:
+            self.manifest = json.load(json_file)
+
+        self.img_paths = [self.manifest[img_name] for img_name in self.labels['labels'].keys()]
+
+        self.classes = np.unique(list(self.labels['labels'].values())).tolist()
+
+        self.class_to_idx = {c: i for i, c in enumerate(self.classes)}
+        self.targets = [self.class_to_idx[lbl] for lbl in self.labels['labels'].values()]
+        self.samples = [(self.manifest[img_name],self.class_to_idx[lbl]) for img_name, lbl in self.labels['labels'].items()]
+
+
+    def __getitem__(self, index: int) -> Tuple[Any, Any]:
+        """
+        Args:
+            index (int): Index
+
+        Returns:
+            tuple: (sample, target) where target is class_index of the target class.
+        """
+
+        path, target = self.samples[index]
+        sample = Image.open(path).convert("RGB")
+        if self.transform is not None:
+            sample = self.transform(sample)
+        if self.target_transform is not None:
+            target = self.target_transform(target)
+
+        return sample, target
+
+    def __len__(self) -> int:
+        return len(self.img_paths)
+
+    def get_classes(self) -> Tuple[Any]:
+        return self.classes
