@@ -65,10 +65,8 @@ def train(cli_params):
 
     #train_dataset = ImageFolder(data_dir/"train", transform=ToTensor())
     #val_dataset = ImageFolder(data_dir/"val", transform=ToTensor())
-    #train_dataset = ImageFolder(data_dir/"train", transform=Compose([Resize(size=(128, 128)), ToTensor()]))
-    #val_dataset = ImageFolder(data_dir/"val", transform=Compose([Resize(size=(128, 128)), ToTensor()]))
-    train_dataset = FiftyOneTorchDataset(Path(params['data_preprocessing']['index_file_folder'])/'train', transform=Compose([Resize(size=(128, 128)), ToTensor()]))
-    val_dataset = FiftyOneTorchDataset(Path(params['data_preprocessing']['index_file_folder'])/'val', transform=Compose([Resize(size=(128, 128)), ToTensor()]))
+    train_dataset = FiftyOneTorchDataset(Path(params['data_preprocessing']['index_file_folder'])/'train', transform=ToTensor())
+    val_dataset = FiftyOneTorchDataset(Path(params['data_preprocessing']['index_file_folder'])/'val', transform=ToTensor())
 
     batch_size = params["train"]["batch_size"]
     margin = params["train"]["margin"]
