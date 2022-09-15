@@ -21,6 +21,8 @@ umap-learn = "^0.5.3"
 loguru = "^0.6.0"
 timm = "^0.6.7"
 pytorch-metric-learning = "^1.5.2"
+kaleido = "0.2.1"
+fiftyone = "^0.16.6"
 
 [tool.poetry.dev-dependencies]
 jupyter = "^1.0.0"

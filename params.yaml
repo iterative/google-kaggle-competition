@@ -3,11 +3,11 @@ data:
   index_file: "index.txt"
 
 datasets:
-  #  - Benchmark
-  # - Dishes
-  # - Landmarks
-  # - MNIST_exp
-  - baseline_130k_128_split
+- baseline_kais_apparel
+
+data_preprocessing:
+  index_file_folder: data/kaggle_130k
+
 train:
   model_path: "models"
   model_file: "saved_model.pt"
