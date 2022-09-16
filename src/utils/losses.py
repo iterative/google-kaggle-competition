@@ -40,7 +40,9 @@ def batch_triplet_loss(embeddings, labels, margin, triplet_type="all"):
 
     triplet_margin = anchor_negative_dist - anchor_positive_dist
     triplet_mask = get_triplet_mask(labels) 
-    triplet_loss = -triplet_margin + margin  
+    
+
+    condition = triplet_margin <= margin
     if triplet_type == "semi-hard":
 
         # loss = max(d_ap - d_an + margin,0) 
@@ -49,11 +51,11 @@ def batch_triplet_loss(embeddings, labels, margin, triplet_type="all"):
         #1st term semi-hard criteria, it means that negative is further from anchor than positive; 
         # 2nd term positive loss; 
         condition = (triplet_margin > 0) & (triplet_margin <= margin) 
-        valid_mask = triplet_mask & condition
-    else:
-        condition = (triplet_margin <= margin) | (triplet_margin > margin)        
+    elif triplet_type == "hard":
+        condition = condition & (triplet_margin < 0)  
        
     valid_mask = triplet_mask & condition
-    triplet_loss = triplet_loss[valid_mask]
+    triplet_loss = -triplet_margin + margin  
+    # triplet_loss = triplet_loss[valid_mask]
     triplet_loss[triplet_loss < 0] = 0
     return torch.mean(triplet_loss)

@@ -1,0 +1,13 @@
+md5: 0c03b87a38dad3672c50d3bd61e29ef4
+frozen: true
+deps:
+- path: datasets/kaggle_130k
+  repo:
+    url: https://github.com/iterative/google-kaggle-competition-data-pipeline
+    rev: 49aec17
+    rev_lock: 49aec175f255fb886f0c3562a94b297dceb0cec1
+outs:
+- md5: 4efa6c3c35c9497443e7744b3236930e.dir
+  size: 1466320434
+  nfiles: 3
+  path: kaggle_130k
