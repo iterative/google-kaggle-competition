@@ -322,3 +322,47 @@ stages:
     - path: reports/plots/baseline_130k_128_split/embedding.png
       md5: 2feddd4b92f7a4e5a150d8377f8ddba0
       size: 165362
+  unzip_dataset@kaggle_130k:
+    cmd: python src/stages/unzip_dataset.py --dataset kaggle_130k
+    deps:
+    - path: data/kaggle_130k/kaggle_130k.zip
+      md5: 317e6b41ecf75381b90c28c61b522bb6
+      size: 1462936660
+    - path: src/stages/unzip_dataset.py
+      md5: 677b335b003d676d39fac03310cfb855
+      size: 1081
+    params:
+      params.yaml:
+        data:
+          root: data
+          index_file: index.txt
+          training: training
+    outs:
+    - path: data/kaggle_130k_index.txt
+      md5: e5d04ba63d069f2b086a8d998f924e9f
+      size: 2814894
+  preprocess@kaggle_130k:
+    cmd: python src/stages/preprocess.py --dataset kaggle_130k
+    deps:
+    - path: data/kaggle_130k_index.txt
+      md5: e5d04ba63d069f2b086a8d998f924e9f
+      size: 2814894
+    - path: src/stages/preprocess.py
+      md5: 22cae58950103410f2a0bd2d69480e76
+      size: 1486
+    params:
+      params.yaml:
+        data:
+          root: data
+          index_file: index.txt
+          training: training
+    outs:
+    - path: data/training/kaggle_130k/test/manifest.json
+      md5: a9fed21b34f298e78b2207477e00dec1
+      size: 2709697
+    - path: data/training/kaggle_130k/train/manifest.json
+      md5: 6fe78309308d8efd2e0f7ed529a28f28
+      size: 8129278
+    - path: data/training/kaggle_130k/val/manifest.json
+      md5: b5749ffb1797b7d9cadbadf815df560b
+      size: 2709452

@@ -6,10 +6,25 @@ stages:
         outs:
         - ${data.root}/${item}_${data.index_file}
         deps:
-        - ${data.root}/${item}.zip
+        - ${data.root}/${item}/${item}.zip
         - src/stages/unzip_dataset.py
         params:
         - data
+
+  preprocess:
+      foreach: ${datasets}
+      do:
+        cmd: python src/stages/preprocess.py --dataset ${item}
+        outs:
+         - ${data.root}/${data.training}/${item}/train/manifest.json
+         - ${data.root}/${data.training}/${item}/val/manifest.json
+         - ${data.root}/${data.training}/${item}/test/manifest.json
+        deps:
+          - ${data.root}/${item}_${data.index_file}
+          - src/stages/preprocess.py
+        params:
+         - data
+ 
 
   train_model:
       foreach: ${datasets}
@@ -17,7 +32,8 @@ stages:
         cmd: python src/stages/train.py --dataset ${item}
         deps:
         # - ${data.root}/${data.teacher_data}/${item}
-        - ${data.root}/${item}_${data.index_file}
+        - ${data.root}/${data.training}/${item}/train/manifest.json
+        - ${data.root}/${data.training}/${item}/val/manifest.json
         - src/stages/train.py
         - src/utils/networks.py
         outs:
